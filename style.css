@@ -6,6 +6,11 @@ body {
   font-family: "Press Start 2P", sans-serif;
 }
 
+p {
+  margin: 0;
+  padding: 5px;
+}
+
 #main {
   text-align: center;
   display: flex;
@@ -66,18 +71,44 @@ h1 svg {
   gap: 30px;
 }
 
+.front-card,
+.back-card {
+  width: 230px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  backface-visibility: hidden;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none;
+}
+
+.back-card {
+  transform: rotateY(180deg);
+}
+
+.container {
+  perspective: 1000px;
+}
+
 .card {
   background-color: #2e374f;
-  padding: 20px;
-  width: 180px;
+  width: 230px;
   text-align: center;
   border-radius: 15px;
   box-shadow: 0 0 10px 1px #fff700;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: all 0.8s ease-in;
+  height: 275px;
 }
 
 .card:hover {
-  transform: translateY(-10px);
+  transform: rotateY(180deg);
   box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.7);
 }
 
