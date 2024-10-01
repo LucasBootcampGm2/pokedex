@@ -54,6 +54,8 @@ async function createPokemonCards() {
     const containerPokemons = document.createElement("div")
     containerPokemons.classList.add("pokemon-container")
 
+    const selectType = document.getElementById("select-type")
+    const differentTypes = []
     for (let i = 0; i < pokemons.length; i++) {
       const pokemon = pokemons[i]
 
@@ -79,7 +81,16 @@ async function createPokemonCards() {
       containerTypesP.textContent = "Types"
 
       containerTypes.append(containerTypesP)
+
       types.forEach((type) => {
+        if (!differentTypes.includes(type)) {
+          differentTypes.push(type)
+          let newOption = document.createElement("option")
+          newOption.textContent = type
+          newOption.setAttribute("id", `option-${type}`)
+          selectType.append(newOption)
+        }
+
         let newType = document.createElement("span")
         newType.textContent = type
         switch (type) {
