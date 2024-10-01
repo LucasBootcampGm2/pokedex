@@ -45,8 +45,11 @@ async function getPokemonTypes(index) {
 
 async function createPokemonCards() {
   try {
+    const p = document.createElement("p")
+    p.textContent = "Creando tarjetas de Pokémon..."
+    body.append(p)
     console.log("Creando tarjetas de Pokémon...")
-    const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
+    const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1025")
     const data = await response.json()
     const pokemons = data.results
     const main = document.getElementById("main")
@@ -64,6 +67,7 @@ async function createPokemonCards() {
 
       const pokeName = await getPokemonName(i + 1)
       const h3 = document.createElement("h3")
+      h3.classList.add("card-h3")
       h3.textContent = pokeName || "Nombre desconocido"
       pokeCard.append(h3)
 
@@ -164,9 +168,46 @@ async function createPokemonCards() {
     } else {
       console.error("No se encontró el elemento 'main' en el DOM.")
     }
+    p.remove()
   } catch (err) {
     console.error("Error al crear las tarjetas de los Pokémon:", err)
   }
+}
+
+const selectType = document.getElementById("select-type")
+selectType.addEventListener("change", (event) => {
+  const selectedType = event.target.value
+  filterPokemonsByType(selectedType)
+})
+
+function filterPokemonsByType(type) {
+  const allCards = document.querySelectorAll(".card")
+  allCards.forEach((card) => {
+    const types = card.querySelector(".container-types")
+    if (types.textContent.includes(type)) {
+      card.style.display = "block"
+    } else {
+      card.style.display = "none"
+    }
+  })
+}
+
+const inputName = document.getElementById("input-name")
+inputName.addEventListener("input", function (event) {
+  const name = event.target.value
+  filterPokemonsByName(name)
+})
+
+function filterPokemonsByName(name) {
+  const allCards = document.querySelectorAll(".card")
+  allCards.forEach((card) => {
+    const h3 = card.querySelector(".card-h3")
+    if (h3.textContent.toLowerCase().includes(name.toLowerCase())) {
+      card.style.display = "block"
+    } else {
+      card.style.display = "none"
+    }
+  })
 }
 
 createPokemonCards()

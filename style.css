@@ -11,7 +11,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 30px;
-  padding: 0 15px;
+  padding: 0 15px 40px;
+}
+
+p {
+  text-align: center;
+  padding: 10px;
 }
 
 h1 {
@@ -113,10 +118,6 @@ h3 {
 .type-badge:hover {
   transform: scale(1.1);
   background-color: #d90429;
-}
-
-.type-badge::first-letter {
-  text-transform: uppercase;
 }
 
 @keyframes glowing {
