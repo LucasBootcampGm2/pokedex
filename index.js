@@ -12,22 +12,31 @@ async function fetchPokemonData(pokemonId) {
   }
 }
 
-function createPokemonCardFront(pokemonName, pokemonImg, types) {
+function createPokemonCardFront(pokemonName, pokemonImg, types, id) {
   const frontCard = document.createElement("div")
   frontCard.classList.add("front-card")
-
-  const h3 = document.createElement("h3")
-  h3.classList.add("card-h3")
-  h3.textContent = pokemonName || "Nombre desconocido"
-  frontCard.append(h3)
 
   const img = document.createElement("img")
   img.classList.add("card-img")
   img.src = pokemonImg
   frontCard.append(img)
 
+  const containerInfo = document.createElement("div")
+
+  const pokeNum = document.createElement("span")
+  pokeNum.textContent = `#${id}`
+  containerInfo.append(pokeNum)
+
+  const h3 = document.createElement("h3")
+  h3.classList.add("card-h3")
+  h3.textContent = pokemonName || "Nombre desconocido"
+
+  containerInfo.append(h3)
+
   const containerTypes = createTypesContainer(types)
-  frontCard.append(containerTypes)
+  containerInfo.append(containerTypes)
+  containerInfo.classList.add("info-container")
+  frontCard.append(containerInfo)
 
   return frontCard
 }
@@ -35,10 +44,6 @@ function createPokemonCardFront(pokemonName, pokemonImg, types) {
 function createTypesContainer(types) {
   const containerTypes = document.createElement("div")
   containerTypes.classList.add("container-types")
-
-  const containerTypesP = document.createElement("p")
-  containerTypesP.textContent = "Types"
-  containerTypes.append(containerTypesP)
 
   types.forEach((type) => {
     const newType = document.createElement("span")
@@ -110,7 +115,6 @@ async function createPokemonCards() {
 
     for (let i = 0; i < pokemons.length; i++) {
       const pokemonData = await fetchPokemonData(i + 1)
-      if (!pokemonData) continue
 
       const pokeCard = document.createElement("div")
       pokeCard.classList.add("card")
@@ -118,7 +122,8 @@ async function createPokemonCards() {
       const frontCard = createPokemonCardFront(
         pokemonData.name,
         pokemonData.sprites.front_default,
-        pokemonData.types.map((typeObj) => typeObj.type.name)
+        pokemonData.types.map((typeObj) => typeObj.type.name),
+        pokemonData.id
       )
 
       const backCard = createPokemonCardBack(pokemonData.stats)
