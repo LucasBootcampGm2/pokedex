@@ -103,7 +103,7 @@ async function createPokemonCards() {
 
     const loading = document.getElementById("loading")
 
-    const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1025")
+    const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=125")
 
     const data = await response.json()
     const pokemons = data.results
