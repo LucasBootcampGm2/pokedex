@@ -160,10 +160,60 @@ li.first {
   background-color: #e5e5e5;
 }
 
-span {
+.stats-span {
   display: block;
   text-align: center;
   margin-top: 5px;
   font-size: 9px;
   max-width: 40px;
+}
+
+.description {
+  padding: 30px 0;
+}
+
+.description-container {
+  background-color: #3b82f6;
+  border-radius: 15px;
+}
+
+.description-ul-1,
+.description-ul-2 {
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+  flex-direction: column;
+  gap: 20px;
+}
+
+ul {
+  margin: 0;
+  list-style: none;
+  padding: 0;
+}
+
+.attribute-list {
+  display: flex;
+  gap: 10px;
+}
+
+li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.attribute-value {
+  width: 100%;
+}
+
+.attribute-title {
+  color: white;
+}
+
+
+.pokemon-attributes{
+  padding: 40px 0;
 }
