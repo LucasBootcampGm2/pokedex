@@ -7,7 +7,7 @@ const selectType = document.getElementById("select-type")
 
 const loading = document.getElementById("loading")
 
-let maxPerPage = 25
+const maxPerPage = 25
 let actualPage = 1
 
 const prevButton = document.getElementById("prev-page")
@@ -140,7 +140,8 @@ async function createHtmlCards(offset, pokemons, differentTypes) {
     for (let i = 0; i < pokemons.length; i++) {
       const pokemonData = await fetchPokemonData(i + 1 + offset)
 
-      const pokeCard = document.createElement("div")
+      const pokeCard = document.createElement("a")
+      pokeCard.href = "../pokemon/pokemon.html"
       pokeCard.classList.add("card")
 
       const frontCard = createPokemonCardFront(

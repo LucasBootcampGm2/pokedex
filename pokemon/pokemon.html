@@ -4,98 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="pokemon.css">
+    <link rel="stylesheet" href="../style.css">
   </head>
   <body>
-    <section class="section pokedex-pokemon-header overflow-visible">
-      <div class="pokedex-pokemon-pagination">
-        <a href="/us/pokedex/terapagos" class="previous">
-          <div class="pokedex-pokemon-pagination-wrapper">
-            <span class="icon icon_arrow_sm_left"></span>
+    <header class="header">
+      <div class="container-next-prev-pokemon">
+        <a href="pokemon.html" class="previous">
+          <div class="prev-spans-left">
+            <span class="arrow-left-icon"></span>
             <span class="pokemon-number">#1024</span>
-            <span class="pokemon-name hidden-mobile">Terapagos</span>
           </div>
         </a>
 
-        <a href="/us/pokedex/bulbasaur" class="next">
-          <div class="pokedex-pokemon-pagination-wrapper">
-            <span class="icon icon_arrow_sm_right"></span>
+        <a href="pokemon.html" class="next">
+          <div class="prev-spans-right">
+            <span class="arrow-right-icon"></span>
             <span class="pokemon-number">#0001</span>
-            <span class="pokemon-name hidden-mobile">Bulbasaur</span>
           </div>
         </a>
       </div>
-      <div class="pokedex-pokemon-pagination-title">
-        <div>
-          Pecharunt
+      <div class="pokemon-title">
+          <h2>Pecharunt</h2>
           <span class="pokemon-number">#1025</span>
-        </div>
       </div>
-    </section>
-    <section class="section pokedex-pokemon-form">
-      <div class="column-12 push-1">
-        <div class="custom-select-wrapper" style="visibility: visible">
-          <select id="formes" name="formes" style="display: none">
-            <option value="0">Normal Form Terapagos</option>
-
-            <option value="1">Terastal Form Terapagos</option>
-
-            <option value="2">Stellar Form Terapagos</option>
-          </select>
-          <div class="custom-select-menu" tabindex="0" id="formesSelect">
-            <label
-              class="styled-select button-black right selection-made opened"
-              >Stellar Form Terapagos</label
-            >
-            <ul data-select-name="formes" style="">
-              <li data-option-value="0" class="">Normal Form Terapagos</li>
-              <li data-option-value="1" class="">Terastal Form Terapagos</li>
-              <li data-option-value="2" class="selected">
-                Stellar Form Terapagos
-              </li>
-            </ul>
-            <input type="hidden" name="formes" value="2" />
-          </div>
-          <i class="icon icon_arrow_sm_down"></i>
-        </div>
-      </div>
-    </section>
-
-    <section class="section pokedex-pokemon-details">
-      <div class="column-6 push-1">
-        <div class="pokedex-pokemon-profile">
-          <div class="profile-images">
-            <!-- <img
-              class=""
-              src="https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/1024.png"
-              alt="Normal Form Terapagos"
-              style="opacity: 0"
-            />
-
-            <img
-              src="https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/1024_f2.png"
-              alt="Terastal Form Terapagos"
-              style="opacity: 0"
-              class=""
-            />
-
-            <img
-              src="https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/1024_f3.png"
-              alt="Stellar Form Terapagos"
-              style="opacity: 1"
-              class="active"
-            /> -->
-          </div>
-        </div>
+    </header>
+    <section class="section-select"><select id="select-form"></select></section>
+    <section id="section-pokemon-details">
+      <div class="column-left">
+        <div class="pokemon-img"></div>
+        
 
         <div class="pokemon-stats-info" style="opacity: 0">
-          <h3
-            data-gtm-vis-first-on-screen159551_85="1257"
-            data-gtm-vis-first-on-screen159551_82="1257"
-          >
-            Stats
-          </h3>
+          <h3>Stats</h3>
 
-          <ul>
+          <ul id="stats-list">
             <!-- <li class="first">
               <ul class="gauge">
                 <li data-value="6" class="meter" style="top: 60%"></li>
@@ -118,141 +61,21 @@
               <span>HP</span>
             </li>
 
-            <li>
-              <ul class="gauge">
-                <li data-value="4" class="meter" style="top: 73.3333%"></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-              </ul>
-              <span>Attack</span>
-            </li>
-
-            <li>
-              <ul class="gauge">
-                <li data-value="5" class="meter" style="top: 66.6667%"></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-              </ul>
-              <span>Defense</span>
-            </li>
-
-            <li>
-              <ul class="gauge">
-                <li data-value="4" class="meter" style="top: 73.3333%"></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-              </ul>
-              <span>Special Attack</span>
-            </li>
-
-            <li>
-              <ul class="gauge">
-                <li data-value="5" class="meter" style="top: 66.6667%"></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-              </ul>
-              <span>Special Defense</span>
-            </li>
-
-            <li>
-              <ul class="gauge">
-                <li data-value="4" class="meter" style="top: 73.3333%"></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-              </ul>
-              <span>Speed</span>
-            </li> -->
+            
+            -->
           </ul>
         </div>
-
-        &gt;
+      
       </div>
-      <!-- column-6 push-1 -->
 
-      <div class="column-6 push-7">
-        <div class="pokedex-pokemon-details-right">
-          <div class="version-descriptions" style="opacity: 0">
-            <p class="version-y">
-              It’s thought that this Pokémon lived in ancient Paldea until it
-              got caught in seismic shifts and went extinct.
-            </p>
-          </div>
+      <div class="column-right">
+        <div class="pokemon-details-right">
+          <p class="description">
+            It’s thought that this Pokémon lived in ancient Paldea until it
+            got caught in seismic shifts and went extinct.
+          </p>
 
-          <h3
-            data-gtm-vis-first-on-screen159551_82="428"
-            data-gtm-vis-first-on-screen159551_85="429"
-            data-gtm-vis-total-visible-time159551_85="3000"
-            data-gtm-vis-total-visible-time159551_82="3000"
-            data-gtm-vis-recent-on-screen159551_85="954451"
-            data-gtm-vis-has-fired159551_85="1"
-            data-gtm-vis-recent-on-screen159551_82="954452"
-            data-gtm-vis-has-fired159551_82="1"
-          >
+          <h3>
             Versions:
           </h3>
           <div class="version-labels">
@@ -265,66 +88,49 @@
           </div>
 
           <div class="info match-height-tablet">
-            <div
-              class="pokemon-ability-info color-bg color-lightblue match"
-              style="opacity: 0"
-            >
-              <div class="column-7">
-                <div class="left-column">
-                  <ul>
-                    <!-- <li>
-                      <span class="attribute-title">Height</span>
-                      <span class="attribute-value">0' 08"</span>
-                    </li>
+            <ul>
+                <!-- <li>
+                  <span class="attribute-title">Height</span>
+                  <span class="attribute-value">0' 08"</span>
+                </li>
 
-                    <li>
-                      <span class="attribute-title">Weight</span>
-                      <span class="attribute-value">14.3 lbs</span>
-                    </li>
+                <li>
+                  <span class="attribute-title">Weight</span>
+                  <span class="attribute-value">14.3 lbs</span>
+                </li>
 
-                    <li>
-                      <span class="attribute-title">Gender</span>
+                <li>
+                  <span class="attribute-title">Gender</span>
 
-                      <span class="attribute-value">
-                        <i class="icon icon_male_symbol"></i>
-                        <i class="icon icon_female_symbol"></i>
-                      </span>
-                    </li> -->
-                  </ul>
-                </div>
-              </div>
+                  <span class="attribute-value">
+                    <i class="icon icon_male_symbol"></i>
+                    <i class="icon icon_female_symbol"></i>
+                  </span>
+                </li> -->
+              </ul>
+                <ul>
+                  <!-- <li>
+                    <span class="attribute-title">Category</span>
+                    <span class="attribute-value">Tera</span>
+                  </li>
 
-              <div class="column-7 push-4">
-                <div class="right-column">
-                  <ul>
-                    <!-- <li>
-                      <span class="attribute-title">Category</span>
-                      <span class="attribute-value">Tera</span>
-                    </li>
+                  <li>
+                    <span class="attribute-title">Abilities</span>
 
-                    <li>
-                      <span class="attribute-title">Abilities</span>
-
-                      <ul class="attribute-list">
-                        <li>
-                          <a href="" class="moreInfo">
-                            <span class="attribute-value">Tera Shift</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </li> -->
-                  </ul>
-                </div>
-              </div>
+                    <ul class="attribute-list">
+                      <li>
+                        <a href="" class="moreInfo">
+                          <span class="attribute-value">Tera Shift</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </li> -->
+                </ul>
             </div>
-            <!-- pokemon-ability-info color-bg color-lightblue match -->
 
-            <div class="pokedex-pokemon-attributes" style="opacity: 0">
-              <div class="dtm-type">
-                <!-- <h3
-                  data-gtm-vis-first-on-screen159551_85="1240"
-                  data-gtm-vis-first-on-screen159551_82="1240"
-                >
+            <div class="pokemon-attributes">
+              <div class="type">
+                <h3>
                   Type
                 </h3>
                 <ul>
@@ -333,89 +139,48 @@
                   </li>
                 </ul>
               </div>
-               
-
-              <div class="dtm-weaknesses">
-                <h3
-                  data-gtm-vis-first-on-screen159551_85="1274"
-                  data-gtm-vis-first-on-screen159551_82="1274"
-                >
-                  Weaknesses
-                </h3>
+      
+              <div class="weaknesses">
+                <h3>Weaknesses</h3>
                 <ul>
                   <li class="background-color-fighting first">
-                    <a href="/us/pokedex/?weakness=fighting">
                       <span>Fighting </span>
-                    </a>
                   </li>
                 </ul>
               </div>
-            </div> -->
-
+            </div> 
             
-    <section class="section pokedex-pokemon-evolution">
-      <div class="column-12 push-1 dog-ear-bl">
-        <!-- <h2
-          data-gtm-vis-first-on-screen159551_85="2362"
-          data-gtm-vis-first-on-screen159551_82="2362"
-          data-gtm-vis-recent-on-screen159551_85="1041070"
-          data-gtm-vis-total-visible-time159551_85="3000"
-          data-gtm-vis-recent-on-screen159551_82="1041070"
-          data-gtm-vis-total-visible-time159551_82="3000"
-          data-gtm-vis-has-fired159551_85="1"
-          data-gtm-vis-has-fired159551_82="1"
-        >
+    <section class="section-evolutions">
+      <div class="container-evolutions">
+        <h2>
           Evolutions
         </h2>
 
         <p>This Pokémon does not evolve.</p>
 
-        <ul class="evolution-profile evolution-one">
+        <ul class="evolutions">
           <li class="first">
-            <a href="/us/pokedex/terapagos">
-              <img
-                src="https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/detail/1024.png"
-                alt="Terapagos"
-              />
-              <h3
-                class="match"
-                data-gtm-vis-first-on-screen159551_85="70618"
-                data-gtm-vis-first-on-screen159551_82="70618"
-                data-gtm-vis-recent-on-screen159551_85="1040970"
-                data-gtm-vis-total-visible-time159551_85="3000"
-                data-gtm-vis-recent-on-screen159551_82="1040970"
-                data-gtm-vis-total-visible-time159551_82="3000"
-                data-gtm-vis-has-fired159551_85="1"
-                data-gtm-vis-has-fired159551_82="1"
-              >
+            <a href="pokemon.html">
+              <img/>
+              <h3>
                 Terapagos
                 <span class="pokemon-number"> #1024 </span>
               </h3>
-
-              <ul class="evolution-attributes match-height">
-                <li
-                  class="background-color-normal match"
-                  style="min-height: 12px"
-                >
+              <ul class="evolution-types">
+                <li>
                   Normal
                 </li>
               </ul>
             </a>
           </li>
-        </ul> -->
+        </ul> 
       </div>
     </section>
 
     <section class="section pokedex-pokemon-share no-padding-top">
-      <div class="column-12 push-1">
-        <div class="content-block content-block-half-first"></div>
-
-        <div class="content-block content-block-half">
-          <a href="/us/pokedex/" class="button button-orange right"
-            >Explore More Pokémon</a
-          >
-        </div>
-      </div>
+      <button>
+        <a href="../home/home.html" id="explore-more">Explore More Pokémon</a>
+      </button>
     </section>
   </body>
 </html>
