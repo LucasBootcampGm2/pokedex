@@ -54,7 +54,9 @@ header {
 }
 
 #select-type,
-#input-name {
+#input-name,
+#prev-page,
+#next-page {
   padding: 10px;
   border-radius: 5px;
   border: 2px solid #ffd700;
@@ -66,7 +68,9 @@ header {
 }
 
 #select-type:hover,
-#input-name:hover {
+#input-name:hover,
+#prev-page:hover,
+#next-page:hover {
   border-color: #ef233c;
 }
 
@@ -94,11 +98,7 @@ header {
 
 .back-card {
   transform: rotateY(180deg);
-  gap: 25px;
-}
-
-.container {
-  perspective: 1000px;
+  gap: 22px;
 }
 
 .card {
@@ -114,6 +114,9 @@ header {
   transition: all 0.8s ease-in;
   height: 330px;
   padding: 30px 0 0;
+  perspective: 1000px;
+  transition: transform 1s;
+  cursor: pointer;
 }
 
 .card:hover {
