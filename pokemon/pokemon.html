@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="pokemon.css">
+    <link rel="stylesheet" href="../style.css">
+  </head>
+  <body>
+    <header class="header">
+      <div class="container-next-prev-pokemon">
+        <a href="pokemon.html" id="previous">
+          <div class="prev-spans-left">
+            <span class="arrow-left-icon"></span>
+            <span class="pokemon-number-after">#1024</span>
+          </div>
+        </a>
+
+        <a href="pokemon.html" id="next">
+          <div class="prev-spans-right">
+            <span class="arrow-right-icon"></span>
+            <span class="pokemon-number-before">#0001</span>
+          </div>
+        </a>
+      </div>
+      <div class="pokemon-title">
+          <h2 class="pokemon-title-h2"></h2>
+          <span class="pokemon-number"></span>
+      </div>
+    </header>
+    <section class="section-select"><select id="select-form"></select></section>
+    <section id="section-pokemon-details">
+      <div class="column-left">
+        <img class="pokemon-img"></img>
+        
+
+        <div class="pokemon-stats-info">
+          <h3>Stats</h3>
+
+          <ul id="stats-list"></ul>
+        </div>
+      
+      </div>
+
+      <div class="column-right">
+        <div class="pokemon-details-right">
+          <p class="description"></p>
+          <div class="description-container">
+              <ul class="description-ul-1"></ul>
+              <ul class="description-ul-2"></ul>
+          </div>
+
+          <div class="pokemon-attributes">
+            <section class="section-types">
+              <h3 class="types-h3">Type</h3>
+                
+              <div id="container-types"></div>
+            </section>
+      
+            <section class="weaknesses">
+                <h3>Weaknesses</h3>
+                <div id="container-weaknesses"></div>
+            </section>
+          </div> 
+            
+    <section class="section-evolutions">
+      <div class="container-evolutions">
+        <h2>
+          Evolutions
+        </h2>
+
+        <p>This Pokémon does not evolve.</p>
+
+        <ul class="evolutions">
+          <li class="first">
+            <a href="pokemon.html">
+              <img/>
+              <h3>
+                Terapagos
+                <span class="pokemon-number"> #1024 </span>
+              </h3>
+              <ul class="evolution-types">
+                <li>
+                  Normal
+                </li>
+              </ul>
+            </a>
+          </li>
+        </ul> 
+      </div>
+    </section>
+
+    <section class="section pokedex-pokemon-share no-padding-top">
+      <button>
+        <a href="../home/home.js" id="explore-more">Explore More Pokémon</a>
+      </button>
+    </section>
+    <script src="pokemon.js" type="module"></script>
+  </body>
+</html>

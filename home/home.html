@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promises</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="home.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body id="body">
+    <header class="header">
+      <img id="logo-img" src="../images/logo.png" alt="logo.png" />
+      <div class="container-filters">
+        <div class="name-filter filters">
+          <label for="input-name">Name:</label>
+          <input placeholder="Filter by name" id="input-name" type="text" />
+        </div>
+        <div class="type-filter filters">
+          <label for="select-type">Type:</label>
+          <select name="select-type" id="select-type"></select>
+        </div>
+      </div>
+    </header>
+    <main id="main">
+      <div id="loading">Loonking for all existing pokemons...</div>
+      <div class="pokemon-container"></div>
+    </main>
+    <div class="pagination hidden">
+      <button id="prev-page">Anterior</button>
+      <button id="next-page">Siguiente</button>
+    </div>
+
+    <script src="home.js" type="module"></script>
+  </body>
+</html>

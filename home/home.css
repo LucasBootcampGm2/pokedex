@@ -1,0 +1,222 @@
+body {
+  background-color: #2b2d42;
+}
+
+p {
+  text-align: center;
+  padding: 10px;
+}
+
+span,
+a {
+  color: white;
+  text-decoration: none;
+  list-style: none;
+}
+
+#main {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 0 15px 40px;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+#logo-img {
+  width: 350px;
+  object-fit: cover;
+}
+
+.container-filters {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  color: white;
+}
+
+#select-type,
+#input-name,
+#prev-page,
+#next-page {
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid #ffd700;
+  background-color: #2b2d42;
+  color: white;
+  outline: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+#select-type:hover,
+#input-name:hover,
+#prev-page:hover,
+#next-page:hover {
+  border-color: #ef233c;
+}
+
+#input-name::placeholder {
+  color: white;
+}
+
+.pokemon-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.front-card,
+.back-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  backface-visibility: hidden;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none;
+}
+
+.back-card {
+  transform: rotateY(180deg);
+  gap: 22px;
+}
+
+.card {
+  display: flex;
+  justify-content: center;
+  width: 249px;
+  text-align: center;
+  border-radius: 15px;
+  box-shadow: 0 0 12px 0px white;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: all 0.8s ease-in;
+  height: 330px;
+  padding: 30px 6px 20px;
+  perspective: 1000px;
+  transition: transform 4s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: rotateY(180deg);
+  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.7);
+  padding: 10px 40px 20px;
+}
+
+.card-img {
+  width: 200px;
+  background-color: #5b5b5b69;
+  border-radius: 10px;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 80%;
+  gap: 10px;
+  padding: 15px 0;
+}
+
+.card:hover .card-img {
+  transform: scale(1.1);
+}
+
+.stats-items {
+  display: flex;
+  width: 90%;
+  justify-content: left;
+  align-items: center;
+  gap: 12px;
+}
+
+h3 {
+  font-size: 1.2rem;
+  color: white;
+}
+
+.container-types {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  align-items: center;
+}
+
+.type-badge {
+  padding: 6px 12px;
+  border-radius: 15px;
+  background-color: #ef233c;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  text-transform: capitalize;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.type-badge:hover {
+  transform: scale(1.1);
+  background-color: #d90429;
+}
+
+@keyframes glowing {
+  0% {
+    box-shadow: 0 0 5px #ef233c, 0 0 10px #ef233c, 0 0 15px #ef233c;
+  }
+  50% {
+    box-shadow: 0 0 20px #ffd700, 0 0 30px #ffd700, 0 0 40px #ffd700;
+  }
+  100% {
+    box-shadow: 0 0 5px #ef233c, 0 0 10px #ef233c, 0 0 15px #ef233c;
+  }
+}
+
+footer {
+  text-align: center;
+  margin-top: 50px;
+  color: white;
+  font-size: 0.9rem;
+  padding: 10px;
+  background-color: #2b2d42;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 30px;
+}
+
+.pagination button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
