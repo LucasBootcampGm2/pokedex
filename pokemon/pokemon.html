@@ -10,32 +10,32 @@
   <body>
     <header class="header">
       <div class="container-next-prev-pokemon">
-        <a href="pokemon.html" class="previous">
+        <a href="pokemon.html" id="previous">
           <div class="prev-spans-left">
             <span class="arrow-left-icon"></span>
-            <span class="pokemon-number">#1024</span>
+            <span class="pokemon-number-after">#1024</span>
           </div>
         </a>
 
-        <a href="pokemon.html" class="next">
+        <a href="pokemon.html" id="next">
           <div class="prev-spans-right">
             <span class="arrow-right-icon"></span>
-            <span class="pokemon-number">#0001</span>
+            <span class="pokemon-number-before">#0001</span>
           </div>
         </a>
       </div>
       <div class="pokemon-title">
-          <h2>Pecharunt</h2>
-          <span class="pokemon-number">#1025</span>
+          <h2 class="pokemon-title-h2"></h2>
+          <span class="pokemon-number"></span>
       </div>
     </header>
     <section class="section-select"><select id="select-form"></select></section>
     <section id="section-pokemon-details">
       <div class="column-left">
-        <div class="pokemon-img"></div>
+        <img class="pokemon-img"></img>
         
 
-        <div class="pokemon-stats-info" style="opacity: 0">
+        <div class="pokemon-stats-info">
           <h3>Stats</h3>
 
           <ul id="stats-list">
@@ -55,7 +55,7 @@
                 <li></li>
                 <li></li>
                 <li></li>
-                <li></li>
+                <li></li></button>
                 <li></li>
               </ul>
               <span>HP</span>
@@ -179,8 +179,9 @@
 
     <section class="section pokedex-pokemon-share no-padding-top">
       <button>
-        <a href="../home/home.html" id="explore-more">Explore More Pokémon</a>
+        <a href="../home/home.js" id="explore-more">Explore More Pokémon</a>
       </button>
     </section>
+    <script src="pokemon.js" type="module"></script>
   </body>
 </html>
