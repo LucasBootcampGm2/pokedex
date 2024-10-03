@@ -1,4 +1,16 @@
 const body = document.querySelector("body")
+const main = document.getElementById("main")
+
+const containerPokemons = document.querySelector(".pokemon-container")
+
+const selectType = document.getElementById("select-type")
+
+const loading = document.getElementById("loading")
+
+let maxPerPage = 25
+let actualPage = 1
+
+const prevButton = document.getElementById("prev-page")
 
 async function fetchPokemonData(pokemonId) {
   try {
@@ -29,7 +41,9 @@ function createPokemonCardFront(pokemonName, pokemonImg, types, id) {
 
   const h3 = document.createElement("h3")
   h3.classList.add("card-h3")
-  h3.textContent = pokemonName || "Nombre desconocido"
+  h3.textContent = pokemonName
+  h3.textContent =
+    h3.textContent.charAt(0).toUpperCase() + h3.textContent.slice(1)
 
   containerInfo.append(h3)
 
@@ -58,28 +72,28 @@ function createTypesContainer(types) {
 
 function getTypeColor(type) {
   const typeColors = {
-    normal: "gray",
-    fire: "orange",
-    water: "blue",
-    grass: "#2c9b2c",
-    electric: "yellow",
+    normal: "#a4acaf",
+    fire: "#fd7d24",
+    water: "#4592c4",
+    grass: "#9bcc50",
+    electric: "#eed535",
     ice: "lightblue",
     fighting: "red",
-    poison: "purple",
+    poison: "#b97fc9",
     ground: "#a55c2a",
-    flying: "#00bdd5",
-    psychic: "pink",
-    bug: "lightgreen",
+    flying: "#3dc7ef",
+    psychic: "#f366b9",
+    bug: "#729f3f",
     rock: "brown",
     dragon: "purple",
-    fairy: "#e91e63",
+    fairy: "#fdb9e9",
     steel: "#397897",
     ghost: "#4b2d4b",
   }
-  return typeColors[type] || "purple"
+  return typeColors[type]
 }
 
-function createPokemonCardBack(stats) {
+function createPokemonBackCard(stats) {
   const backCard = document.createElement("div")
   backCard.classList.add("back-card")
 
@@ -88,33 +102,43 @@ function createPokemonCardBack(stats) {
   backCard.append(statsTitle)
 
   stats.forEach((stat) => {
-    const statItem = document.createElement("p")
-    statItem.textContent = `${stat.stat.name}: ${stat.base_stat}`
+    const statItem = document.createElement("div")
+    statItem.classList.add("stats-items")
+
+    let statName = document.createElement("span")
+    switch (stat.stat.name) {
+      case "special-attack":
+        statName.textContent = "sp. attack"
+        break
+      case "special-defense":
+        statName.textContent = "sp. defense"
+        break
+      default:
+        statName.textContent = stat.stat.name
+        break
+    }
+    statItem.append(statName)
+
+    statName.style.width = "90px"
+    statName.style.textAlign = "left"
+
+    const statMeter = document.createElement("meter")
+    statItem.append(statMeter)
+
+    const statValue = stat.base_stat
+    statItem.append(statValue)
+    statMeter.style.width = `${statValue * 2}px`
+
     backCard.append(statItem)
   })
 
   return backCard
 }
 
-async function createPokemonCards() {
+async function createHtmlCards(offset, pokemons, differentTypes) {
   try {
-    const main = document.getElementById("main")
-
-    const containerPokemons = document.createElement("div")
-    containerPokemons.classList.add("pokemon-container")
-
-    const selectType = document.getElementById("select-type")
-    const differentTypes = []
-
-    const loading = document.getElementById("loading")
-
-    const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=125")
-
-    const data = await response.json()
-    const pokemons = data.results
-
     for (let i = 0; i < pokemons.length; i++) {
-      const pokemonData = await fetchPokemonData(i + 1)
+      const pokemonData = await fetchPokemonData(i + 1 + offset)
 
       const pokeCard = document.createElement("div")
       pokeCard.classList.add("card")
@@ -126,7 +150,7 @@ async function createPokemonCards() {
         pokemonData.id
       )
 
-      const backCard = createPokemonCardBack(pokemonData.stats)
+      const backCard = createPokemonBackCard(pokemonData.stats)
 
       pokeCard.append(frontCard)
       pokeCard.append(backCard)
@@ -138,11 +162,49 @@ async function createPokemonCards() {
         selectType
       )
     }
+  } catch (error) {
+    console.error("error", error)
+  }
+}
+
+function nextButtonPageEvent() {
+  actualPage++
+  prevButton.disable = false
+  containerPokemons.innerHTML = ""
+  createPokemons(actualPage, maxPerPage)
+}
+
+function previousButtonPageEvent() {
+  if (actualPage > 1) {
+    actualPage--
+    containerPokemons.innerHTML = ""
+    createPokemons(actualPage, maxPerPage)
+  }
+
+  if (actualPage === 1) {
+    prevButton.disable = true
+  }
+}
+
+async function createPokemons(page, maxPerPage) {
+  try {
+    const differentTypes = []
+
+    const offset = (page - 1) * maxPerPage
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon?limit=${maxPerPage}&offset=${offset}`
+    )
+
+    const data = await response.json()
+    const pokemons = data.results
+
+    await createHtmlCards(offset, pokemons, differentTypes)
 
     if (main) {
       main.append(containerPokemons)
       console.log("Tarjetas de Pokémon añadidas al DOM correctamente.")
       loading.classList.add("hidden")
+      document.querySelector(".pagination").classList.remove("hidden")
     } else {
       console.error("No se encontró el elemento 'main' en el DOM.")
     }
@@ -198,4 +260,14 @@ function filterPokemonsByName(name) {
   })
 }
 
-createPokemonCards()
+window.addEventListener("load", () => {
+  createPokemons(actualPage, maxPerPage)
+
+  document.getElementById("next-page").addEventListener("click", () => {
+    nextButtonPageEvent()
+  })
+
+  prevButton.addEventListener("click", () => {
+    previousButtonPageEvent()
+  })
+})

@@ -1,9 +1,12 @@
+:root {
+  font-family: "Noto Sans", sans-serif;
+}
+
 body {
   box-sizing: border-box;
   margin: 0;
   background-color: #2b2d42;
   color: white;
-  font-family: "Press Start 2P", sans-serif;
 }
 
 h3 {
@@ -37,19 +40,21 @@ header {
 
 .container-filters {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .filters {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 15px;
-  width: 100%;
 }
 
-#select-type {
+#select-type,
+#input-name {
   padding: 10px;
   border-radius: 5px;
   border: 2px solid #ffd700;
@@ -60,7 +65,8 @@ header {
   transition: all 0.3s ease;
 }
 
-#select-type:hover {
+#select-type:hover,
+#input-name:hover {
   border-color: #ef233c;
 }
 
@@ -88,6 +94,7 @@ header {
 
 .back-card {
   transform: rotateY(180deg);
+  gap: 25px;
 }
 
 .container {
@@ -112,6 +119,7 @@ header {
 .card:hover {
   transform: rotateY(180deg);
   box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.7);
+  padding: 10px 40px 20px;
 }
 
 .card-img {
@@ -126,16 +134,23 @@ header {
   align-items: start;
   width: 80%;
   gap: 10px;
-  padding: 25px 0;
+  padding: 15px 0;
 }
 
 .card:hover .card-img {
   transform: scale(1.1);
 }
 
+.stats-items {
+  display: flex;
+  width: 90%;
+  justify-content: left;
+  align-items: center;
+  gap: 12px;
+}
+
 h3 {
   font-size: 1.2rem;
-  color: #ffd700;
 }
 
 .container-types {
@@ -180,4 +195,23 @@ footer {
   font-size: 0.9rem;
   padding: 10px;
   background-color: #2b2d42;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 30px;
+}
+
+.pagination button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
