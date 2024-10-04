@@ -1,3 +1,26 @@
+function getTypeColor(type) {
+  const typeColors = {
+    normal: "#a4acaf",
+    fire: "#fd7d24",
+    water: "#4592c4",
+    grass: "#9bcc50",
+    electric: "#eed535",
+    ice: "lightblue",
+    fighting: "red",
+    poison: "#b97fc9",
+    ground: "#a55c2a",
+    flying: "#3dc7ef",
+    psychic: "#f366b9",
+    bug: "#729f3f",
+    rock: "brown",
+    dragon: "purple",
+    fairy: "#fdb9e9",
+    steel: "#397897",
+    ghost: "#4b2d4b",
+  }
+  return typeColors[type]
+}
+
 async function fetchPokemonData(pokemonId) {
   try {
     const response = await fetch(
@@ -135,9 +158,6 @@ function addPokemonAttributes(pokemonData, speciesData) {
   } kg</span>`
   ul1.appendChild(weightLi)
 
-  const genderLi = document.createElement("li")
-  genderLi.innerHTML = `<span class="attribute-title">Gender</span><span class="attribute-value"><i class="icon icon_male_symbol"></i><i class="icon icon_female_symbol"></i></span>`
-  ul1.appendChild(genderLi)
 
   const categoryLi = document.createElement("li")
   categoryLi.innerHTML = `<span class="attribute-title">Category</span><span class="attribute-value">${
@@ -159,6 +179,155 @@ function addPokemonAttributes(pokemonData, speciesData) {
   descriptionContainer.append(ul2)
 }
 
+async function addHtmlTypesAndWeaknesses(pokemonData) {
+  try {
+    const typesArray = pokemonData.types.map((typeObj) => typeObj.type.name)
+    const containerTypes = document.getElementById("container-types")
+    typesArray.forEach((type) => {
+      let newSpan = document.createElement("span")
+      newSpan.textContent = type
+      newSpan.style.backgroundColor = getTypeColor(type)
+      containerTypes.append(newSpan)
+    })
+
+    const weaknesses = await fetchPokemonWeaknesses(pokemonData)
+    const containerWeaknesses = document.getElementById("container-weaknesses")
+    weaknesses.forEach((weakness) => {
+      let newSpan = document.createElement("span")
+      newSpan.textContent = weakness
+      newSpan.style.backgroundColor = getTypeColor(weakness)
+      containerWeaknesses.append(newSpan)
+    })
+  } catch (error) {}
+}
+
+async function fetchPokemonWeaknesses(pokemonData) {
+  try {
+    const dataWeaknesses = pokemonData.types.map(
+      (typeInfo) => typeInfo.type.url
+    )
+
+    const weaknesses = new Set()
+
+    for (const typeUrl of dataWeaknesses) {
+      const response = await fetch(typeUrl)
+      const typeData = await response.json()
+
+      typeData.damage_relations.double_damage_from.forEach((weakness) => {
+        weaknesses.add(weakness.name)
+      })
+    }
+
+    return Array.from(weaknesses)
+  } catch (error) {
+    console.error("Error al obtener las debilidades del Pokémon:", error)
+    return []
+  }
+}
+
+async function fetchEvolutionChain(pokemonId) {
+  try {
+    const speciesResponse = await fetch(
+      `https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`
+    )
+    const speciesData = await speciesResponse.json()
+
+    const evolutionsResponse = await fetch(speciesData.evolution_chain.url)
+    const evolutionsData = await evolutionsResponse.json()
+
+    const evolutions = await getEvolutionNames(evolutionsData.chain)
+
+    return evolutions
+  } catch (error) {
+    console.error("Error al obtener la cadena evolutiva:", error)
+    return null
+  }
+}
+
+async function getEvolutionNames(chain) {
+  let evolutions = []
+
+  evolutions.push({
+    name: chain.species.name,
+    url: chain.species.url,
+  })
+
+  let currentEvolution = chain.evolves_to
+  while (currentEvolution.length > 0) {
+    evolutions.push({
+      name: currentEvolution[0].species.name,
+      url: currentEvolution[0].species.url,
+    })
+    currentEvolution = currentEvolution[0].evolves_to
+  }
+
+  return evolutions
+}
+
+async function addPokemonHtmlEvolutions(pokemonId) {
+  try {
+    const evolutions = await fetchEvolutionChain(pokemonId)
+
+    const containerEvolutions = document.getElementById("container-evolutions")
+    containerEvolutions.innerHTML = "" 
+    
+    for (const evolution of evolutions) {
+      const pokemonData = await fetchPokemonDataByName(evolution.name)
+
+      let evolutionDiv = document.createElement("div")
+      evolutionDiv.classList.add("evolution")
+
+      let evolutionImg = document.createElement("img")
+      evolutionImg.classList.add("evolution-img")
+      evolutionImg.src =
+        pokemonData.sprites.other["official-artwork"].front_default
+      evolutionDiv.append(evolutionImg)
+
+      let evolutionData = document.createElement("div")
+      evolutionData.classList.add("evolution-data")
+
+      let evolutionName = document.createElement("h4")
+      evolutionName.textContent = pokemonData.name
+
+      let evolutionNumber = document.createElement("span")
+      evolutionNumber.textContent = `#${pokemonData.id}`
+
+      evolutionData.append(evolutionNumber)
+      evolutionData.append(evolutionName)
+      evolutionDiv.append(evolutionData)
+
+      let evolutionTypes = document.createElement("div")
+      evolutionTypes.classList.add("evolution-types")
+
+      pokemonData.types.forEach((typeInfo) => {
+        let typeSpan = document.createElement("span")
+        typeSpan.textContent = typeInfo.type.name
+        typeSpan.style.backgroundColor = getTypeColor(typeInfo.type.name)
+        evolutionTypes.append(typeSpan)
+      })
+
+      evolutionDiv.append(evolutionTypes)
+
+      containerEvolutions.append(evolutionDiv)
+    }
+  } catch (error) {
+    console.error("Error al agregar evoluciones al HTML:", error)
+  }
+}
+
+async function fetchPokemonDataByName(pokemonName) {
+  try {
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
+    )
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error("Error al obtener los datos del Pokémon:", error)
+    return null
+  }
+}
+
 async function addContentWithFetchData(id) {
   try {
     const pokemonData = await fetchPokemonData(id)
@@ -170,6 +339,8 @@ async function addContentWithFetchData(id) {
     addPokemonHtmlDescription(pokemonData.name)
 
     addPokemonAttributes(pokemonData, speciesData)
+    addHtmlTypesAndWeaknesses(pokemonData)
+    await addPokemonHtmlEvolutions(id)
   } catch (error) {
     console.error("Error:", error)
   }

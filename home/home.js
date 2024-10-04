@@ -62,7 +62,7 @@ function createTypesContainer(types) {
   return containerTypes
 }
 
-function getTypeColor(type) {
+export function getTypeColor(type) {
   const typeColors = {
     normal: "#a4acaf",
     fire: "#fd7d24",
@@ -113,7 +113,7 @@ function createPokemonBackCard(stats) {
     const statValue = stat.base_stat
     statItem.append(statMeter)
     statItem.append(statValue)
-    statMeter.style.width = `${statValue * 2}px`
+    statMeter.style.width = `50%`
 
     backCard.append(statItem)
   })
@@ -208,16 +208,38 @@ function updateTypeFilter(types, differentTypes, selectType) {
   })
 }
 
-function filterPokemons(type = "", name = "") {
+document
+  .getElementById("input-name")
+  .addEventListener("input", function (event) {
+    const name = event.target.value
+    filterPokemonsByName(name)
+  })
+
+function filterPokemonsByName(name) {
   const allCards = document.querySelectorAll(".card")
   allCards.forEach((card) => {
-    const types = card.querySelector(".container-types").textContent
-    const h3 = card.querySelector(".card-h3").textContent.toLowerCase()
+    const h3 = card.querySelector(".card-h3")
+    if (h3.textContent.toLowerCase().includes(name.toLowerCase())) {
+      card.style.display = "block"
+    } else {
+      card.style.display = "none"
+    }
+  })
+}
 
-    const matchesType = type ? types.includes(type) : true
-    const matchesName = name ? h3.includes(name.toLowerCase()) : true
-
-    card.style.display = matchesType && matchesName ? "block" : "none"
+document.getElementById("select-type").addEventListener("change", (event) => {
+  const selectedType = event.target.value
+  filterPokemonsByType(selectedType)
+})
+function filterPokemonsByType(type) {
+  const allCards = document.querySelectorAll(".card")
+  allCards.forEach((card) => {
+    const types = card.querySelector(".container-types")
+    if (types.textContent.includes(type)) {
+      card.style.display = "block"
+    } else {
+      card.style.display = "none"
+    }
   })
 }
 
