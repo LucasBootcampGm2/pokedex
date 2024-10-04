@@ -113,7 +113,7 @@ function createPokemonBackCard(stats) {
     const statValue = stat.base_stat
     statItem.append(statMeter)
     statItem.append(statValue)
-    statMeter.style.width = `${statValue * 2}px`
+    statMeter.style.width = `50%`
 
     backCard.append(statItem)
   })
