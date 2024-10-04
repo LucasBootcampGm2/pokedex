@@ -208,19 +208,38 @@ function updateTypeFilter(types, differentTypes, selectType) {
   })
 }
 
-function filterPokemons(type = "", name = "") {
+document
+  .getElementById("input-name")
+  .addEventListener("input", function (event) {
+    const name = event.target.value
+    filterPokemonsByName(name)
+  })
+
+function filterPokemonsByName(name) {
   const allCards = document.querySelectorAll(".card")
-
   allCards.forEach((card) => {
-    const types = Array.from(
-      card.querySelectorAll(".container-types .type-badge")
-    ).map((el) => el.textContent.toLowerCase())
-    const h3 = card.querySelector(".card-h3").textContent.toLowerCase()
+    const h3 = card.querySelector(".card-h3")
+    if (h3.textContent.toLowerCase().includes(name.toLowerCase())) {
+      card.style.display = "block"
+    } else {
+      card.style.display = "none"
+    }
+  })
+}
 
-    const matchesType = type ? types.includes(type.toLowerCase()) : true
-    const matchesName = name ? h3.includes(name.toLowerCase()) : true
-
-    card.style.display = matchesType && matchesName ? "block" : "none"
+document.getElementById("select-type").addEventListener("change", (event) => {
+  const selectedType = event.target.value
+  filterPokemonsByType(selectedType)
+})
+function filterPokemonsByType(type) {
+  const allCards = document.querySelectorAll(".card")
+  allCards.forEach((card) => {
+    const types = card.querySelector(".container-types")
+    if (types.textContent.includes(type)) {
+      card.style.display = "block"
+    } else {
+      card.style.display = "none"
+    }
   })
 }
 
