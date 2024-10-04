@@ -24,7 +24,7 @@ a {
 
 header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   padding: 50px;
   flex-wrap: wrap;
   gap: 30px;

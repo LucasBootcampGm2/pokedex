@@ -210,11 +210,14 @@ function updateTypeFilter(types, differentTypes, selectType) {
 
 function filterPokemons(type = "", name = "") {
   const allCards = document.querySelectorAll(".card")
+
   allCards.forEach((card) => {
-    const types = card.querySelector(".container-types").textContent
+    const types = Array.from(
+      card.querySelectorAll(".container-types .type-badge")
+    ).map((el) => el.textContent.toLowerCase())
     const h3 = card.querySelector(".card-h3").textContent.toLowerCase()
 
-    const matchesType = type ? types.includes(type) : true
+    const matchesType = type ? types.includes(type.toLowerCase()) : true
     const matchesName = name ? h3.includes(name.toLowerCase()) : true
 
     card.style.display = matchesType && matchesName ? "block" : "none"
