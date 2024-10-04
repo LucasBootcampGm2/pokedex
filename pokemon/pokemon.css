@@ -263,6 +263,14 @@ li.first {
   width: 100%;
 }
 
+.evolution:nth-child(3) {
+  border-radius: 0 0 15px 15px;
+}
+
+.evolution:nth-child(1) {
+  border-radius: 15px 15px 0 0;
+}
+
 .evolution-img {
   width: 150px;
   text-align: left;
@@ -284,6 +292,7 @@ li.first {
   border: none;
   border-radius: 5px;
   color: white;
+  cursor: pointer;
 }
 
 .evolution-types {
@@ -374,11 +383,23 @@ li.first {
     gap: 0;
   }
 
+  .pokemon-attributes {
+    padding: 40px 0 25px;
+  }
+
   .evolution {
     padding: 15px;
   }
 
   .evolution-img {
     width: 80px;
+  }
+
+  .evolution:nth-child(1) {
+    border-radius: 15px 0 0 15px;
+  }
+  
+  .evolution:nth-child(3) {
+    border-radius: 0 15px 15px 0;
   }
 }
