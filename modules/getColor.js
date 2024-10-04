@@ -20,3 +20,7 @@ export function getTypeColor(type) {
   };
   return typeColors[type];
 }
+
+export function Hola (){
+    console.log('hola')
+}
