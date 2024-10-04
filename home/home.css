@@ -7,6 +7,10 @@ p {
   padding: 10px;
 }
 
+#loading {
+  color: white;
+}
+
 span,
 a {
   color: white;
@@ -20,7 +24,7 @@ a {
   align-items: center;
   text-align: center;
   gap: 30px;
-  padding: 0 15px 40px;
+  padding: 40px 15px;
 }
 
 header {
