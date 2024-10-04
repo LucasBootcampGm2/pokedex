@@ -62,7 +62,7 @@ function createTypesContainer(types) {
   return containerTypes
 }
 
-function getTypeColor(type) {
+export function getTypeColor(type) {
   const typeColors = {
     normal: "#a4acaf",
     fire: "#fd7d24",

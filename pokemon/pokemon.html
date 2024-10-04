@@ -13,14 +13,14 @@
         <a href="pokemon.html" id="previous">
           <div class="prev-spans-left">
             <span class="arrow-left-icon"></span>
-            <span class="pokemon-number-after">#1024</span>
+            <span class="pokemon-number-before">Previous pokemon</span>
           </div>
         </a>
 
         <a href="pokemon.html" id="next">
           <div class="prev-spans-right">
             <span class="arrow-right-icon"></span>
-            <span class="pokemon-number-before">#0001</span>
+            <span class="pokemon-number-after">Next Pokemon</span>
           </div>
         </a>
       </div>
@@ -29,7 +29,6 @@
           <span class="pokemon-number"></span>
       </div>
     </header>
-    <section class="section-select"><select id="select-form"></select></section>
     <section id="section-pokemon-details">
       <div class="column-left">
         <img class="pokemon-img"></img>
@@ -63,39 +62,19 @@
                 <div id="container-weaknesses"></div>
             </section>
           </div> 
-            
-    <section class="section-evolutions">
-      <div class="container-evolutions">
-        <h2>
-          Evolutions
-        </h2>
+        <section class="section-evolutions">
+          <h3 style="padding: 10px 0;">Evolutions</h3>
+          <div id="container-evolutions"></div>
+        </section>
+          
 
-        <p>This Pokémon does not evolve.</p>
-
-        <ul class="evolutions">
-          <li class="first">
-            <a href="pokemon.html">
-              <img/>
-              <h3>
-                Terapagos
-                <span class="pokemon-number"> #1024 </span>
-              </h3>
-              <ul class="evolution-types">
-                <li>
-                  Normal
-                </li>
-              </ul>
-            </a>
-          </li>
-        </ul> 
-      </div>
-    </section>
-
-    <section class="section pokedex-pokemon-share no-padding-top">
-      <button>
-        <a href="../home/home.js" id="explore-more">Explore More Pokémon</a>
-      </button>
-    </section>
+    <div class="container-more">
+      <a href="../home/home.html" id="explore-more">
+        <button id="explore-more-button">Explore More Pokémon</button>
+      </a>
+      
+      
+    </div>
     <script src="pokemon.js" type="module"></script>
   </body>
 </html>
