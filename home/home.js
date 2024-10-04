@@ -1,5 +1,5 @@
-import { getTypeColor } from "../modules/getColor.js";
-import {fetchPokemonData} from "../modules/fetchPokemonData.js"
+import { getTypeColor } from "../generalModules/getColor.js";
+import { fetchPokemonData } from "../generalModules/fetchPokemonData.js";
 
 const main = document.getElementById("main");
 const containerPokemons = document.querySelector(".pokemon-container");
@@ -9,7 +9,6 @@ const maxPerPage = 25;
 let actualPage = 1;
 const prevButton = document.getElementById("prev-page");
 const nextButton = document.getElementById("next-page");
-
 
 function createPokemonCardFront(pokemonName, pokemonImg, types, id) {
   const frontCard = document.createElement("div");

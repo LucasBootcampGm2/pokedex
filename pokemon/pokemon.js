@@ -1,7 +1,8 @@
-import { getTypeColor } from "../modules/getColor.js";
-import { fetchPokemonData } from "../modules/fetchPokemonData.js";
+import { getTypeColor } from "../generalModules/getColor.js";
+import { fetchPokemonData } from "../generalModules/fetchPokemonData.js";
 import { fetchPokemonDescription } from "./description/description.js";
 import { addPokemonHtmlDescription } from "./description/description.js";
+import { addHtmlTypesAndWeaknesses } from "./weaknesses/weaknesses.js";
 
 function prevPokemonButton(id) {
   const prevButton = document.getElementById("previous");
@@ -119,52 +120,6 @@ function addPokemonAttributes(pokemonData, speciesData) {
   descriptionContainer.append(ul2);
 }
 
-async function addHtmlTypesAndWeaknesses(pokemonData) {
-  try {
-    const typesArray = pokemonData.types.map((typeObj) => typeObj.type.name);
-    const containerTypes = document.getElementById("container-types");
-    typesArray.forEach((type) => {
-      let newSpan = document.createElement("span");
-      newSpan.textContent = type;
-      newSpan.style.backgroundColor = getTypeColor(type);
-      containerTypes.append(newSpan);
-    });
-
-    const weaknesses = await fetchPokemonWeaknesses(pokemonData);
-    const containerWeaknesses = document.getElementById("container-weaknesses");
-    weaknesses.forEach((weakness) => {
-      let newSpan = document.createElement("span");
-      newSpan.textContent = weakness;
-      newSpan.style.backgroundColor = getTypeColor(weakness);
-      containerWeaknesses.append(newSpan);
-    });
-  } catch (error) {}
-}
-
-async function fetchPokemonWeaknesses(pokemonData) {
-  try {
-    const dataWeaknesses = pokemonData.types.map(
-      (typeInfo) => typeInfo.type.url
-    );
-
-    const weaknesses = new Set();
-
-    for (const typeUrl of dataWeaknesses) {
-      const response = await fetch(typeUrl);
-      const typeData = await response.json();
-
-      typeData.damage_relations.double_damage_from.forEach((weakness) => {
-        weaknesses.add(weakness.name);
-      });
-    }
-
-    return Array.from(weaknesses);
-  } catch (error) {
-    console.error("Error al obtener las debilidades del Pokémon:", error);
-    return [];
-  }
-}
-
 async function fetchEvolutionChain(pokemonId) {
   try {
     const speciesResponse = await fetch(
@@ -212,7 +167,7 @@ async function addPokemonHtmlEvolutions(pokemonId) {
     containerEvolutions.innerHTML = "";
 
     for (const evolution of evolutions) {
-      const pokemonData = await fetchPokemonDataByName(evolution.name);
+      const pokemonData = await fetchPokemonData(evolution.name);
 
       let evolutionDiv = document.createElement("div");
       evolutionDiv.classList.add("evolution");
@@ -252,19 +207,6 @@ async function addPokemonHtmlEvolutions(pokemonId) {
     }
   } catch (error) {
     console.error("Error al agregar evoluciones al HTML:", error);
-  }
-}
-
-async function fetchPokemonDataByName(pokemonName) {
-  try {
-    const response = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
-    );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error al obtener los datos del Pokémon:", error);
-    return null;
   }
 }
 
