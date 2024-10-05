@@ -11,7 +11,7 @@ let actualPage = 1
 const prevButton = document.getElementById("prev-page")
 const nextButton = document.getElementById("next-page")
 
-let allPokemons = [] // Almacena todos los Pokémon
+let allPokemons = []
 
 function createPokemonCardFront(pokemonName, pokemonImg, types, id) {
   const frontCard = document.createElement("div")
@@ -85,7 +85,7 @@ function createPokemonBackCard(stats) {
     statItem.append(statMeter)
     statItem.append(statValue)
     statMeter.style.width = `50%`
-    statMeter.value = statValue // Asignar el valor al elemento meter
+    statMeter.value = statValue 
 
     backCard.append(statItem)
   })
@@ -118,6 +118,11 @@ async function createHtmlCards(pokemons) {
       pokeCard.append(frontCard)
       pokeCard.append(backCard)
       containerPokemons.append(pokeCard)
+
+      await updateTypeFilter(
+        pokemonData.types.map((typeObj) => typeObj.type.name),
+        selectType
+      )
     }
   } catch (error) {
     console.error("Error al crear las tarjetas de los Pokémon:", error)
@@ -194,35 +199,63 @@ inputName.addEventListener("change", async function (event) {
     try {
       actualPage = 1
       loading.classList.remove("hidden")
-      await createPokemons(actualPage, maxPerPage) 
-      loading.classList.add("hidden") 
+      await createPokemons(actualPage, maxPerPage)
+      loading.classList.add("hidden")
     } catch (error) {
       console.error("Error al cargar los Pokémon iniciales:", error)
     }
   }
 })
+const uniqueTypes = new Set()
 
-selectType.addEventListener("change", (event) => {
-  const selectedType = event.target.value
-  filterPokemonsByType(selectedType)
-})
-
-function filterPokemonsByType(type) {
-  const allCards = document.querySelectorAll(".card")
-  allCards.forEach((card) => {
-    const types = card.querySelector(".container-types")
-    if (type === "all" || types.textContent.includes(type)) {
-      card.style.display = "block"
-    } else {
-      card.style.display = "none"
+async function updateTypeFilter(types, selectType) {
+  types.forEach((type) => {
+    if (!uniqueTypes.has(type)) {
+      uniqueTypes.add(type)
+      const newOption = document.createElement("option")
+      newOption.textContent = type
+      newOption.value = type
+      selectType.append(newOption)
     }
   })
 }
 
+selectType.addEventListener("change", async (event) => {
+  const selectedType = event.target.value
+
+  if (selectedType === "all") {
+    await createPokemons(actualPage, maxPerPage)
+  } else {
+    await filterPokemonsByType(selectedType)
+  }
+})
+
+async function filterPokemonsByType(type) {
+  try {
+    const filteredPokemons = []
+
+    for (const pokemon of allPokemons.results) {
+      const pokemonData = await fetchPokemonData(pokemon.name)
+
+      const hasType = pokemonData.types.some(
+        (typeObj) => typeObj.type.name === type
+      )
+
+      if (hasType) {
+        filteredPokemons.push(pokemon)
+      }
+    }
+
+    containerPokemons.innerHTML = ""
+    await createHtmlCards(filteredPokemons)
+  } catch (error) {
+    console.error("Error al filtrar los Pokémon por tipo:", error)
+  }
+}
+
 window.addEventListener("load", async () => {
   allPokemons = await makeLimitFetch(0, 1025)
-  createPokemons(actualPage, maxPerPage)
-
+  await createPokemons(actualPage, maxPerPage)
   nextButton.addEventListener("click", nextButtonPageEvent)
   prevButton.addEventListener("click", previousButtonPageEvent)
   localStorage.clear()
