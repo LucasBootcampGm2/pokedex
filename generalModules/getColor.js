@@ -17,7 +17,6 @@ export function getTypeColor(type) {
     fairy: "#fdb9e9",
     steel: "#397897",
     ghost: "#4b2d4b",
-  };
-  return typeColors[type];
+  }
+  return typeColors[type]
 }
-
