@@ -4,13 +4,17 @@ body {
 
 p {
   text-align: center;
-  padding: 10px;
+  padding: 5px;
 }
 
 #loading h2 {
   color: white;
   font-size: 1.5em;
   margin-top: 150px;
+}
+
+#error img {
+
 }
 
 .pokeball {
@@ -39,7 +43,6 @@ p {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
-
 }
 
 span,
@@ -60,15 +63,14 @@ a {
 
 header {
   display: flex;
-  justify-content: space-between;
-  padding: 20px 10px;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 40px;
-  padding: 40px 60px;
+  padding: 40px;
 }
 
 #logo-img {
-  width: 350px;
+  width: 250px;
   object-fit: cover;
 }
 
@@ -237,12 +239,11 @@ h3 {
 
 .type-badge {
   padding: 6px 12px;
-  border-radius: 15px;
+  border-radius: 8px;
   background-color: #ef233c;
   color: white;
   font-weight: bold;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  text-transform: capitalize;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -295,16 +296,32 @@ footer {
   .pokemon-container {
     max-width: 600px;
   }
+
+  .header {
+    justify-content: space-between;
+  }
+
+  #loading h2 {
+    margin-top: 180px;
+  }
 }
 
 @media (min-width: 1024px) {
   .pokemon-container {
     max-width: 900px;
   }
+
+  #loading h2 {
+    margin-top: 250px;
+  }
 }
 
 @media (min-width: 1440px) {
   .pokemon-container {
     max-width: 1200px;
+  }
+
+  .pokeball {
+    top: 35%;
   }
 }

@@ -30,17 +30,14 @@
 }
 
 .pokemon-title {
+  width: 100%;
+  padding: 40px 0 0;
   position: absolute;
   top: 75%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
   text-align: center;
-}
-
-.pokemon-title {
-  width: 100%;
-  padding: 40px 0 0;
   background-color: white;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
@@ -170,6 +167,7 @@ li.first {
 .description {
   padding: 10px 0 30px;
   text-align: center;
+  text-transform: none;
 }
 
 .description-container {
@@ -263,7 +261,7 @@ li.first {
   width: 100%;
 }
 
-.evolution:nth-child(3) {
+.evolution:nth-last-child(1) {
   border-radius: 0 0 15px 15px;
 }
 
@@ -399,7 +397,7 @@ li.first {
     border-radius: 15px 0 0 15px;
   }
 
-  .evolution:nth-child(3) {
+  .evolution:nth-last-child(1) {
     border-radius: 0 15px 15px 0;
   }
 }
