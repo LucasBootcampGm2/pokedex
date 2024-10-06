@@ -13,6 +13,7 @@ let actualPage = 1
 
 const prevButton = document.getElementById("prev-page")
 const nextButton = document.getElementById("next-page")
+const pagination = document.querySelector(".pagination")
 
 let allPokemons = []
 const uniqueTypes = new Set()
@@ -143,6 +144,7 @@ async function makeLimitFetch(offset, maxPerPage) {
     return response.json()
   } catch (error) {
     console.error("Error", error)
+    handleEror()
   }
 }
 
@@ -150,6 +152,7 @@ async function createPokemons(page, maxPerPage) {
   try {
     containerPokemons.innerHTML = ""
     removeHidden([loading])
+
     const offset = (page - 1) * maxPerPage
     const data = await makeLimitFetch(offset, maxPerPage)
     const pokemons = data.results
@@ -158,6 +161,7 @@ async function createPokemons(page, maxPerPage) {
     updateButtonsVisibility()
   } catch (err) {
     console.error("Error al crear las tarjetas de los Pokémon:", err)
+    handleEror()
   } finally {
     addHidden([loading])
   }
@@ -166,21 +170,28 @@ async function createPokemons(page, maxPerPage) {
 async function filterPokemonsByName(name) {
   removeHidden([loading])
   addHidden([nextButton, prevButton])
+  addHidden([error])
 
   const filteredPokemons = allPokemons.results.filter((pokemon) =>
     pokemon.name.toLowerCase().includes(name.toLowerCase())
   )
 
   containerPokemons.innerHTML = ""
-  await createHtmlCards(filteredPokemons)
-  removeHidden([nextButton, prevButton])
+  if (filteredPokemons.length > 0) {
+    await createHtmlCards(filteredPokemons)
+  } else {
+    handleEror()
+  }
   addHidden([loading])
 }
 
 inputName.addEventListener("input", (event) => {
+  if (containerPokemons.classList.contains("hidden")) {
+    removeHidden([containerPokemons, pagination])
+  }
   clearTimeout(debounceTimeout)
   const name = event.target.value.toLowerCase().trim()
-
+  addHidden([error])
   debounceTimeout = setTimeout(async () => {
     if (name.length > 0) {
       await filterPokemonsByName(name)
@@ -206,6 +217,7 @@ async function updateTypeFilter(types, selectType) {
 selectType.addEventListener("change", async (event) => {
   const selectedType = event.target.value
   containerPokemons.innerHTML = ""
+  addHidden([error])
 
   if (selectedType === "all") {
     await createPokemons(actualPage, maxPerPage)
@@ -227,8 +239,11 @@ async function filterPokemonsByType(type) {
   removeHidden([loading])
   await Promise.all(fetchPromises)
   containerPokemons.innerHTML = ""
-  await createHtmlCards(filteredPokemons)
-  removeHidden([nextButton, prevButton])
+  if (filteredPokemons.length > 0) {
+    await createHtmlCards(filteredPokemons)
+  } else {
+    handleEror()
+  }
   addHidden([loading])
 }
 
@@ -238,6 +253,11 @@ function addHidden(elements) {
 
 function removeHidden(elements) {
   elements.forEach((element) => element.classList.remove("hidden"))
+}
+
+function handleEror() {
+  addHidden([containerPokemons, pagination])
+  removeHidden([error])
 }
 
 window.addEventListener("load", async () => {

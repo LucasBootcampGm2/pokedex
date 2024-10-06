@@ -13,8 +13,12 @@ p {
   margin-top: 150px;
 }
 
-#error img {
+#error {
+  color: white;
+}
 
+#error img {
+  width: 250px;
 }
 
 .pokeball {
