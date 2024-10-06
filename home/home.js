@@ -5,6 +5,7 @@ const main = document.getElementById("main")
 const containerPokemons = document.querySelector(".pokemon-container")
 const selectType = document.getElementById("select-type")
 const inputName = document.getElementById("input-name")
+
 const loading = document.getElementById("loading")
 const maxPerPage = 25
 let actualPage = 1
@@ -12,6 +13,8 @@ const prevButton = document.getElementById("prev-page")
 const nextButton = document.getElementById("next-page")
 
 let allPokemons = []
+const uniqueTypes = new Set()
+let debounceTimeout = null
 
 function createPokemonCardFront(pokemonName, pokemonImg, types, id) {
   const frontCard = document.createElement("div")
@@ -85,7 +88,7 @@ function createPokemonBackCard(stats) {
     statItem.append(statMeter)
     statItem.append(statValue)
     statMeter.style.width = `50%`
-    statMeter.value = statValue 
+    statMeter.value = statValue
 
     backCard.append(statItem)
   })
@@ -94,39 +97,34 @@ function createPokemonBackCard(stats) {
 }
 
 async function createHtmlCards(pokemons) {
-  try {
-    for (let i = 0; i < pokemons.length; i++) {
-      const pokemonData = await fetchPokemonData(pokemons[i].name)
+  const fragment = document.createDocumentFragment()
 
-      const pokeCard = document.createElement("a")
-      pokeCard.href = "../pokemon/pokemon.html"
-      pokeCard.addEventListener("click", () => {
-        localStorage.setItem("pokemon", pokemonData.id)
-        window.location.href = pokeCard.href
-      })
-      pokeCard.classList.add("card")
+  for (let i = 0; i < pokemons.length; i++) {
+    const pokemonData = await fetchPokemonData(pokemons[i].name)
 
-      const frontCard = createPokemonCardFront(
-        pokemonData.name,
-        pokemonData.sprites.other["official-artwork"].front_default,
-        pokemonData.types.map((typeObj) => typeObj.type.name),
-        pokemonData.id
-      )
+    const pokeCard = document.createElement("a")
+    pokeCard.href = "../pokemon/pokemon.html"
+    pokeCard.addEventListener("click", () => {
+      localStorage.setItem("pokemon", pokemonData.id)
+      window.location.href = pokeCard.href
+    })
+    pokeCard.classList.add("card")
 
-      const backCard = createPokemonBackCard(pokemonData.stats)
+    const frontCard = createPokemonCardFront(
+      pokemonData.name,
+      pokemonData.sprites.other["official-artwork"].front_default,
+      pokemonData.types.map((typeObj) => typeObj.type.name),
+      pokemonData.id
+    )
 
-      pokeCard.append(frontCard)
-      pokeCard.append(backCard)
-      containerPokemons.append(pokeCard)
+    const backCard = createPokemonBackCard(pokemonData.stats)
 
-      await updateTypeFilter(
-        pokemonData.types.map((typeObj) => typeObj.type.name),
-        selectType
-      )
-    }
-  } catch (error) {
-    console.error("Error al crear las tarjetas de los Pokémon:", error)
+    pokeCard.append(frontCard)
+    pokeCard.append(backCard)
+    fragment.appendChild(pokeCard)
   }
+
+  containerPokemons.appendChild(fragment)
 }
 
 function nextButtonPageEvent() {
@@ -157,6 +155,7 @@ async function makeLimitFetch(offset, maxPerPage) {
 async function createPokemons(page, maxPerPage) {
   try {
     containerPokemons.innerHTML = ""
+    addHidden([nextButton, prevButton])
     const offset = (page - 1) * maxPerPage
 
     const data = await makeLimitFetch(offset, maxPerPage)
@@ -166,9 +165,8 @@ async function createPokemons(page, maxPerPage) {
 
     if (main) {
       main.append(containerPokemons)
-      console.log("Tarjetas de Pokémon añadidas al DOM correctamente.")
-      loading.classList.add("hidden")
-      document.querySelector(".pagination").classList.remove("hidden")
+      addHidden([loading])
+      removeHidden([nextButton, prevButton])
     } else {
       console.error("No se encontró el elemento 'main' en el DOM.")
     }
@@ -178,35 +176,52 @@ async function createPokemons(page, maxPerPage) {
 }
 
 async function filterPokemonsByName(name) {
-  const filteredPokemons = allPokemons.results.filter((pokemon) =>
-    pokemon.name.toLowerCase().includes(name.toLowerCase())
-  )
+  try {
+    addHidden([nextButton, prevButton])
+    removeHidden([loading])
 
-  containerPokemons.innerHTML = ""
-  await createHtmlCards(filteredPokemons)
-}
-inputName.addEventListener("change", async function (event) {
-  let name = event.target.value.toLowerCase().trim()
-  containerPokemons.innerHTML = ""
+    const filteredPokemons = allPokemons.results.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(name.toLowerCase())
+    )
 
-  if (name.length > 0) {
-    try {
-      await filterPokemonsByName(name)
-    } catch (error) {
-      console.error("Error al filtrar los Pokémon por nombre:", error)
-    }
-  } else {
-    try {
-      actualPage = 1
-      loading.classList.remove("hidden")
-      await createPokemons(actualPage, maxPerPage)
-      loading.classList.add("hidden")
-    } catch (error) {
-      console.error("Error al cargar los Pokémon iniciales:", error)
-    }
+    containerPokemons.innerHTML = ""
+    await createHtmlCards(filteredPokemons)
+
+    addHidden([loading])
+    removeHidden([nextButton, prevButton, main])
+  } catch (error) {
+    console.error("Error al filtrar los Pokémon por nombre:", error)
+    addHidden([loading])
   }
+}
+
+inputName.addEventListener("change", function (event) {
+  addHidden([nextButton, prevButton])
+
+  clearTimeout(debounceTimeout)
+
+  const name = event.target.value.toLowerCase().trim()
+
+  debounceTimeout = setTimeout(async () => {
+    if (name.length > 0) {
+      try {
+        await filterPokemonsByName(name)
+      } catch (error) {
+        console.error("Error al filtrar los Pokémon por nombre:", error)
+      }
+    } else {
+      try {
+        actualPage = 1
+        addHidden([loading, nextButton, prevButton, containerPokemons])
+        await createPokemons(actualPage, maxPerPage)
+        addHidden([loading])
+        removeHidden([containerPokemons, nextButton, prevButton])
+      } catch (error) {
+        console.error("Error al cargar los Pokémon iniciales:", error)
+      }
+    }
+  }, 300)
 })
-const uniqueTypes = new Set()
 
 async function updateTypeFilter(types, selectType) {
   types.forEach((type) => {
@@ -223,15 +238,24 @@ async function updateTypeFilter(types, selectType) {
 selectType.addEventListener("change", async (event) => {
   const selectedType = event.target.value
 
+  removeHidden([loading])
+  addHidden([nextButton, prevButton])
+
   if (selectedType === "all") {
     await createPokemons(actualPage, maxPerPage)
+    removeHidden([nextButton, prevButton])
   } else {
     await filterPokemonsByType(selectedType)
   }
+
+  addHidden([loading])
 })
 
 async function filterPokemonsByType(type) {
   try {
+    addHidden([nextButton, prevButton, main, containerPokemons])
+    removeHidden([loading])
+
     const filteredPokemons = []
 
     for (const pokemon of allPokemons.results) {
@@ -248,13 +272,39 @@ async function filterPokemonsByType(type) {
 
     containerPokemons.innerHTML = ""
     await createHtmlCards(filteredPokemons)
+
+    addHidden([loading])
+    removeHidden([nextButton, prevButton, containerPokemons])
   } catch (error) {
     console.error("Error al filtrar los Pokémon por tipo:", error)
+    addHidden([loading])
   }
 }
 
+function addHidden(elements) {
+  elements.forEach((element) => {
+    element.classList.add("hidden")
+  })
+}
+function removeHidden(elements) {
+  elements.forEach((element) => {
+    element.classList.remove("hidden")
+  })
+}
+
 window.addEventListener("load", async () => {
+  addHidden([nextButton, prevButton])
+  removeHidden([loading])
   allPokemons = await makeLimitFetch(0, 1025)
+  for (const pokemon of allPokemons.results) {
+    const pokemonData = await fetchPokemonData(pokemon.name)
+    await updateTypeFilter(
+      pokemonData.types.map((typeObj) => typeObj.type.name),
+      selectType
+    )
+  }
+  removeHidden([nextButton, prevButton])
+  addHidden([loading])
   await createPokemons(actualPage, maxPerPage)
   nextButton.addEventListener("click", nextButtonPageEvent)
   prevButton.addEventListener("click", previousButtonPageEvent)
