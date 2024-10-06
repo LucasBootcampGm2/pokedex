@@ -17,7 +17,7 @@
   display: flex;
   justify-content: center;
   width: 50%;
-  padding: 50px 0;
+  padding: 25px 0 50px;
   background-color: gray;
   margin: 30px 0 60px;
   text-decoration: none;
@@ -249,7 +249,7 @@ li.first {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .evolution {
@@ -259,7 +259,16 @@ li.first {
   gap: 10px;
   background-color: #212121;
   color: white;
-  padding: 20px;
+  padding: 20px 0 30px;
+  width: 100%;
+}
+
+.evolution:nth-child(3) {
+  border-radius: 0 0 15px 15px;
+}
+
+.evolution:nth-child(1) {
+  border-radius: 15px 15px 0 0;
 }
 
 .evolution-img {
@@ -273,7 +282,7 @@ li.first {
 
 .container-more {
   display: flex;
-  justify-content: right;
+  justify-content: center;
   padding: 40px 0;
 }
 
@@ -283,6 +292,7 @@ li.first {
   border: none;
   border-radius: 5px;
   color: white;
+  cursor: pointer;
 }
 
 .evolution-types {
@@ -332,7 +342,7 @@ li.first {
     list-style-type: none;
     display: flex;
     justify-content: center;
-    padding: 0;
+    padding: 15px;
     gap: 15px;
   }
   .gauge li {
@@ -341,7 +351,7 @@ li.first {
 
   .gauge {
     position: relative;
-    width: 100%;
+    width: 94%;
     height: 312px;
     display: flex;
     flex-direction: column-reverse;
@@ -358,8 +368,38 @@ li.first {
     align-items: center;
     width: 60px;
   }
-  
+
   #container-evolutions {
     justify-content: space-between;
+    flex-direction: row;
+  }
+
+  .container-more {
+    justify-content: right;
+  }
+
+  .container-evolutions {
+    justify-content: center;
+    gap: 0;
+  }
+
+  .pokemon-attributes {
+    padding: 40px 0 25px;
+  }
+
+  .evolution {
+    padding: 15px;
+  }
+
+  .evolution-img {
+    width: 80px;
+  }
+
+  .evolution:nth-child(1) {
+    border-radius: 15px 0 0 15px;
+  }
+  
+  .evolution:nth-child(3) {
+    border-radius: 0 15px 15px 0;
   }
 }

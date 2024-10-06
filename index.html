@@ -23,12 +23,17 @@
         </div>
         <div class="type-filter filters">
           <label for="select-type">Type:</label>
-          <select name="select-type" id="select-type"></select>
+          <select name="select-type" id="select-type">
+            <option value="all">All</option>
+          </select>
         </div>
       </div>
     </header>
     <main id="main">
-      <div id="loading">Loonking for all existing pokemons...</div>
+      <div id="loading" class="hidden">
+        <img class="pokeball" src="images/pokeball.png" alt="pokeball" />
+        <h2>Loading...</h2>
+      </div>
       <div class="pokemon-container"></div>
     </main>
     <div class="pagination hidden">
