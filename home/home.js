@@ -1,23 +1,20 @@
+import { fetchPokemonData } from "../generalModules/fetchPokemonData.js"
+import { getTypeColor } from "../generalModules/getColor.js"
+
 const main = document.getElementById("main")
 const containerPokemons = document.querySelector(".pokemon-container")
 const selectType = document.getElementById("select-type")
+const inputName = document.getElementById("input-name")
+
 const loading = document.getElementById("loading")
 const maxPerPage = 25
 let actualPage = 1
 const prevButton = document.getElementById("prev-page")
 const nextButton = document.getElementById("next-page")
 
-async function fetchPokemonData(pokemonId) {
-  try {
-    const response = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${pokemonId}`
-    )
-    return await response.json()
-  } catch (error) {
-    console.error("Error al obtener los datos del Pokémon:", error)
-    return null
-  }
-}
+let allPokemons = []
+const uniqueTypes = new Set()
+let debounceTimeout = null
 
 function createPokemonCardFront(pokemonName, pokemonImg, types, id) {
   const frontCard = document.createElement("div")
@@ -62,29 +59,6 @@ function createTypesContainer(types) {
   return containerTypes
 }
 
-export function getTypeColor(type) {
-  const typeColors = {
-    normal: "#a4acaf",
-    fire: "#fd7d24",
-    water: "#4592c4",
-    grass: "#9bcc50",
-    electric: "#eed535",
-    ice: "lightblue",
-    fighting: "red",
-    poison: "#b97fc9",
-    ground: "#a55c2a",
-    flying: "#3dc7ef",
-    psychic: "#f366b9",
-    bug: "#729f3f",
-    rock: "brown",
-    dragon: "purple",
-    fairy: "#fdb9e9",
-    steel: "#397897",
-    ghost: "#4b2d4b",
-  }
-  return typeColors[type]
-}
-
 function createPokemonBackCard(stats) {
   const backCard = document.createElement("div")
   backCard.classList.add("back-card")
@@ -114,6 +88,7 @@ function createPokemonBackCard(stats) {
     statItem.append(statMeter)
     statItem.append(statValue)
     statMeter.style.width = `50%`
+    statMeter.value = statValue
 
     backCard.append(statItem)
   })
@@ -121,41 +96,35 @@ function createPokemonBackCard(stats) {
   return backCard
 }
 
-async function createHtmlCards(offset, pokemons, differentTypes) {
-  try {
-    for (let i = 0; i < pokemons.length; i++) {
-      const pokemonData = await fetchPokemonData(i + 1 + offset)
+async function createHtmlCards(pokemons) {
+  const fragment = document.createDocumentFragment()
 
-      const pokeCard = document.createElement("a")
-      pokeCard.href = "../pokemon/pokemon.html"
-      pokeCard.addEventListener("click", () => {
-        localStorage.setItem("pokemon", pokemonData.id)
-        window.location.href = pokeCard.href
-      })
-      pokeCard.classList.add("card")
+  for (let i = 0; i < pokemons.length; i++) {
+    const pokemonData = await fetchPokemonData(pokemons[i].name)
 
-      const frontCard = createPokemonCardFront(
-        pokemonData.name,
-        pokemonData.sprites.other["official-artwork"].front_default,
-        pokemonData.types.map((typeObj) => typeObj.type.name),
-        pokemonData.id
-      )
+    const pokeCard = document.createElement("a")
+    pokeCard.href = "../pokemon/pokemon.html"
+    pokeCard.addEventListener("click", () => {
+      localStorage.setItem("pokemon", pokemonData.id)
+      window.location.href = pokeCard.href
+    })
+    pokeCard.classList.add("card")
 
-      const backCard = createPokemonBackCard(pokemonData.stats)
+    const frontCard = createPokemonCardFront(
+      pokemonData.name,
+      pokemonData.sprites.other["official-artwork"].front_default,
+      pokemonData.types.map((typeObj) => typeObj.type.name),
+      pokemonData.id
+    )
 
-      pokeCard.append(frontCard)
-      pokeCard.append(backCard)
-      containerPokemons.append(pokeCard)
+    const backCard = createPokemonBackCard(pokemonData.stats)
 
-      updateTypeFilter(
-        pokemonData.types.map((typeObj) => typeObj.type.name),
-        differentTypes,
-        selectType
-      )
-    }
-  } catch (error) {
-    console.error("Error al crear las tarjetas de los Pokémon:", error)
+    pokeCard.append(frontCard)
+    pokeCard.append(backCard)
+    fragment.appendChild(pokeCard)
   }
+
+  containerPokemons.appendChild(fragment)
 }
 
 function nextButtonPageEvent() {
@@ -172,23 +141,32 @@ function previousButtonPageEvent() {
   }
 }
 
-async function createPokemons(page, maxPerPage) {
+async function makeLimitFetch(offset, maxPerPage) {
   try {
-    const differentTypes = []
-    const offset = (page - 1) * maxPerPage
     const response = await fetch(
       `https://pokeapi.co/api/v2/pokemon?limit=${maxPerPage}&offset=${offset}`
     )
-    const data = await response.json()
+    return response.json()
+  } catch (error) {
+    console.error("Error", error)
+  }
+}
+
+async function createPokemons(page, maxPerPage) {
+  try {
+    containerPokemons.innerHTML = ""
+    addHidden([nextButton, prevButton])
+    const offset = (page - 1) * maxPerPage
+
+    const data = await makeLimitFetch(offset, maxPerPage)
     const pokemons = data.results
 
-    await createHtmlCards(offset, pokemons, differentTypes)
+    await createHtmlCards(pokemons)
 
     if (main) {
       main.append(containerPokemons)
-      console.log("Tarjetas de Pokémon añadidas al DOM correctamente.")
-      loading.classList.add("hidden")
-      document.querySelector(".pagination").classList.remove("hidden")
+      addHidden([loading])
+      removeHidden([nextButton, prevButton])
     } else {
       console.error("No se encontró el elemento 'main' en el DOM.")
     }
@@ -197,69 +175,137 @@ async function createPokemons(page, maxPerPage) {
   }
 }
 
-function updateTypeFilter(types, differentTypes, selectType) {
+async function filterPokemonsByName(name) {
+  try {
+    addHidden([nextButton, prevButton])
+    removeHidden([loading])
+
+    const filteredPokemons = allPokemons.results.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(name.toLowerCase())
+    )
+
+    containerPokemons.innerHTML = ""
+    await createHtmlCards(filteredPokemons)
+
+    addHidden([loading])
+    removeHidden([nextButton, prevButton, main])
+  } catch (error) {
+    console.error("Error al filtrar los Pokémon por nombre:", error)
+    addHidden([loading])
+  }
+}
+
+inputName.addEventListener("change", function (event) {
+  addHidden([nextButton, prevButton])
+
+  clearTimeout(debounceTimeout)
+
+  const name = event.target.value.toLowerCase().trim()
+
+  debounceTimeout = setTimeout(async () => {
+    if (name.length > 0) {
+      try {
+        await filterPokemonsByName(name)
+      } catch (error) {
+        console.error("Error al filtrar los Pokémon por nombre:", error)
+      }
+    } else {
+      try {
+        actualPage = 1
+        addHidden([loading, nextButton, prevButton, containerPokemons])
+        await createPokemons(actualPage, maxPerPage)
+        addHidden([loading])
+        removeHidden([containerPokemons, nextButton, prevButton])
+      } catch (error) {
+        console.error("Error al cargar los Pokémon iniciales:", error)
+      }
+    }
+  }, 300)
+})
+
+async function updateTypeFilter(types, selectType) {
   types.forEach((type) => {
-    if (!differentTypes.includes(type)) {
-      differentTypes.push(type)
+    if (!uniqueTypes.has(type)) {
+      uniqueTypes.add(type)
       const newOption = document.createElement("option")
       newOption.textContent = type
+      newOption.value = type
       selectType.append(newOption)
     }
   })
 }
 
-document
-  .getElementById("input-name")
-  .addEventListener("input", function (event) {
-    const name = event.target.value
-    filterPokemonsByName(name)
-  })
+selectType.addEventListener("change", async (event) => {
+  const selectedType = event.target.value
 
-function filterPokemonsByName(name) {
-  const allCards = document.querySelectorAll(".card")
-  allCards.forEach((card) => {
-    const h3 = card.querySelector(".card-h3")
-    if (h3.textContent.toLowerCase().includes(name.toLowerCase())) {
-      card.style.display = "block"
-    } else {
-      card.style.display = "none"
+  removeHidden([loading])
+  addHidden([nextButton, prevButton])
+
+  if (selectedType === "all") {
+    await createPokemons(actualPage, maxPerPage)
+    removeHidden([nextButton, prevButton])
+  } else {
+    await filterPokemonsByType(selectedType)
+  }
+
+  addHidden([loading])
+})
+
+async function filterPokemonsByType(type) {
+  try {
+    addHidden([nextButton, prevButton, main, containerPokemons])
+    removeHidden([loading])
+
+    const filteredPokemons = []
+
+    for (const pokemon of allPokemons.results) {
+      const pokemonData = await fetchPokemonData(pokemon.name)
+
+      const hasType = pokemonData.types.some(
+        (typeObj) => typeObj.type.name === type
+      )
+
+      if (hasType) {
+        filteredPokemons.push(pokemon)
+      }
     }
+
+    containerPokemons.innerHTML = ""
+    await createHtmlCards(filteredPokemons)
+
+    addHidden([loading])
+    removeHidden([nextButton, prevButton, containerPokemons])
+  } catch (error) {
+    console.error("Error al filtrar los Pokémon por tipo:", error)
+    addHidden([loading])
+  }
+}
+
+function addHidden(elements) {
+  elements.forEach((element) => {
+    element.classList.add("hidden")
+  })
+}
+function removeHidden(elements) {
+  elements.forEach((element) => {
+    element.classList.remove("hidden")
   })
 }
 
-document.getElementById("select-type").addEventListener("change", (event) => {
-  const selectedType = event.target.value
-  filterPokemonsByType(selectedType)
-})
-function filterPokemonsByType(type) {
-  const allCards = document.querySelectorAll(".card")
-  allCards.forEach((card) => {
-    const types = card.querySelector(".container-types")
-    if (types.textContent.includes(type)) {
-      card.style.display = "block"
-    } else {
-      card.style.display = "none"
-    }
-  })
-}
-
-document.getElementById("select-type").addEventListener("change", (event) => {
-  const selectedType = event.target.value
-  const nameInput = document.getElementById("input-name").value
-  filterPokemons(selectedType, nameInput)
-})
-
-document
-  .getElementById("input-name")
-  .addEventListener("input", function (event) {
-    const name = event.target.value
-    const selectedType = selectType.value
-    filterPokemons(selectedType, name)
-  })
-
-window.addEventListener("load", () => {
-  createPokemons(actualPage, maxPerPage)
-
+window.addEventListener("load", async () => {
+  addHidden([nextButton, prevButton])
+  removeHidden([loading])
+  allPokemons = await makeLimitFetch(0, 1025)
+  for (const pokemon of allPokemons.results) {
+    const pokemonData = await fetchPokemonData(pokemon.name)
+    await updateTypeFilter(
+      pokemonData.types.map((typeObj) => typeObj.type.name),
+      selectType
+    )
+  }
+  removeHidden([nextButton, prevButton])
+  addHidden([loading])
+  await createPokemons(actualPage, maxPerPage)
   nextButton.addEventListener("click", nextButtonPageEvent)
   prevButton.addEventListener("click", previousButtonPageEvent)
   localStorage.clear()
