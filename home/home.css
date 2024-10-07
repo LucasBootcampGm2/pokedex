@@ -24,8 +24,8 @@ a {
   padding: 40px 15px;
 }
 
-#loading{
-  top: 50%;
+#loading {
+  top: 70%;
 }
 
 header {
@@ -66,7 +66,8 @@ header {
   transition: all 0.3s ease;
 }
 
-#next-page,#prev-page {
+#next-page,
+#prev-page {
   width: 100px;
 }
 
