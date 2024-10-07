@@ -23,7 +23,7 @@ p {
 
 .pokeball {
   position: absolute;
-  top: 50%;
+  top: 70%;
   left: 50%;
   width: 120px;
   height: 120px;
@@ -317,6 +317,10 @@ footer {
 
   #loading h2 {
     margin-top: 250px;
+  }
+
+  .pokeball {
+    top: 50%;
   }
 }
 
