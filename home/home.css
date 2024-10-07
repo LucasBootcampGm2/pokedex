@@ -24,6 +24,10 @@ a {
   padding: 40px 15px;
 }
 
+#loading{
+  top: 50%;
+}
+
 header {
   display: flex;
   justify-content: center;

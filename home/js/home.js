@@ -75,7 +75,7 @@ selectType.addEventListener("change", async (event) => {
 });
 
 window.addEventListener("load", async () => {
-  addHidden(document.querySelectorAll(".filters"));
+  addHidden(document.querySelectorAll(".container-filters"));
   removeHidden([loading]);
 
   allPokemons = await makeLimitFetch(0, 1025);
@@ -90,7 +90,7 @@ window.addEventListener("load", async () => {
   );
 
   await createPokemons(actualPage, maxPerPage);
-  removeHidden(document.querySelectorAll(".filters"));
+  removeHidden(document.querySelectorAll(".container-filters"));
 
   removeHidden([nextButton, prevButton]);
   nextButton.addEventListener("click", () => {
