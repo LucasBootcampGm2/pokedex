@@ -1,5 +1,5 @@
-import { getTypeColor } from "../../home/generalModules/getColor.js"
-import { fetchPokemonData } from "../../home/generalModules/fetchPokemonData.js"
+import { getTypeColor } from "../../generalModules/getColor.js"
+import { fetchPokemonData } from "../../generalModules/fetchPokemonData.js"
 export function getEvolutionNames(chain) {
   return new Promise((resolve) => {
     let evolutions = []

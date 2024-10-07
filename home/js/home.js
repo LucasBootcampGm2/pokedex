@@ -12,7 +12,7 @@ import {
   handleError,
 } from "./utils.js"
 
-import { fetchPokemonData } from "../generalModules/fetchPokemonData.js"
+import { fetchPokemonData } from "../../generalModules/fetchPokemonData.js"
 import {
   containerPokemons,
   inputName,

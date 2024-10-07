@@ -1,5 +1,5 @@
-import { getTypeColor } from "../generalModules/getColor.js"
-import { fetchPokemonData } from "../generalModules/fetchPokemonData.js"
+import { fetchPokemonData } from "../../generalModules/fetchPokemonData.js"
+import { getTypeColor } from "../../generalModules/getColor.js"
 const containerPokemons = document.querySelector(".pokemon-container")
 
 export function createPokemonCardFront(pokemonName, pokemonImg, types, id) {

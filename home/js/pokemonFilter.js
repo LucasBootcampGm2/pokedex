@@ -7,7 +7,7 @@ import {
   error,
   containerPokemons,
 } from "./variables.js"
-import { fetchPokemonData } from "../generalModules/fetchPokemonData.js"
+import { fetchPokemonData } from "../../generalModules/fetchPokemonData.js"
 import { allPokemons } from "./home.js"
 const uniqueTypes = new Set()
 

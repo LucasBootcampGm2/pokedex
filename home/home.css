@@ -10,7 +10,7 @@ p {
 #loading h2 {
   color: white;
   font-size: 1.5em;
-  margin-top: 150px;
+  margin: 10%;
 }
 
 #error {
@@ -21,13 +21,14 @@ p {
   width: 250px;
 }
 
-.pokeball {
+#loading {
   position: absolute;
-  top: 70%;
-  left: 50%;
+  top: 30%;
+}
+
+.pokeball {
   width: 120px;
   height: 120px;
-  margin: -60px 0 0 -60px;
   -webkit-animation: spin 4s linear infinite;
   -moz-animation: spin 4s linear infinite;
   animation: spin 4s linear infinite;
@@ -198,11 +199,11 @@ header {
   align-items: center;
   gap: 12px;
   padding: 10px;
-  background-color: rgba(255, 255, 255, 0.1); /* Fondo semitransparente */
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Sombra suave */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, background-color 0.3s ease,
-    box-shadow 0.3s ease; /* Transición suave */
+    box-shadow 0.3s ease;
 }
 
 .stats-items:hover {
@@ -305,9 +306,6 @@ footer {
     justify-content: space-between;
   }
 
-  #loading h2 {
-    margin-top: 180px;
-  }
 }
 
 @media (min-width: 1024px) {
@@ -315,12 +313,9 @@ footer {
     max-width: 900px;
   }
 
-  #loading h2 {
-    margin-top: 250px;
-  }
 
   .pokeball {
-    top: 50%;
+    top: 80%;
   }
 }
 
