@@ -27,19 +27,19 @@ Below is a list of the estimated time and the actual time spent completing each 
 
 | Task                            | Estimated Time | Actual Time |
 | ------------------------------- | -------------- | ----------- |
-| Fetch Pokémon from PokeAPI      | 2 hours        | 1.5 hours   |
+| Fetch Pokémon from PokeAPI      | 2 hours        | 1 hour   |
 | Filter by Name                  | 1 hour         | 1.2 hours   |
-| Filter by Type                  | 1.5 hours      | 1.8 hours   |
+| Filter by Type                  | 1.5 hours      | 1.3hours   |
 | Card Rotation to Show Stats     | 2 hours        | 2 hours     |
 | Max Pokémon per Page            | 1.5 hours      | 1.3 hours   |
 | Pagination Buttons              | 2 hours        | 2.2 hours   |
 | Individual Pokémon Page         | 3 hours        | 3.5 hours   |
-| Fetch Individual Pokémon Data   | 2 hours        | 2 hours     |
-| Individual Pokémon CSS          | 1.5 hours      | 1.8 hours   |
+| Fetch Individual Pokémon Data   | 2 hours        | 1 hour     |
+| Individual Pokémon CSS          | 1.5 hours      | 0.5 hours   |
 | Divide Code into Multiple Files | 1 hour         | 1 hour      |
 | Homepage Loading Spinner        | 1 hour         | 1 hour      |
-| Pokémon Front Card              | 1 hour         | 1.2 hours   |
-| Pokémon Back Card               | 1 hour         | 1.3 hours   |
+| Pokémon Front Card              | 1 hour         | 0.8 hour   |
+| Pokémon Back Card               | 1 hour         | 1 hour   |
 | Error Handling                  | 0.5 hours      | 0.8 hours   |
 
 
