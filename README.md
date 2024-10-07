@@ -41,9 +41,7 @@ Below is a list of the estimated time and the actual time spent completing each 
 | Pokémon Front Card              | 1 hour         | 1.2 hours   |
 | Pokémon Back Card               | 1 hour         | 1.3 hours   |
 | Error Handling                  | 0.5 hours      | 0.8 hours   |
-| CSS Bug Fixes                   | 1 hour         | 1.1 hours   |
-| Import Bug Fixes                | 0.5 hours      | 0.7 hours   |
-| JavaScript Bug Fixes            | 1.5 hours      | 1.5 hours   |
+
 
 ## Project Structure
 
