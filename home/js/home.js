@@ -31,7 +31,7 @@ async function createPokemons(page, maxPerPage) {
   try {
     containerPokemons.innerHTML = "";
     removeHidden([loading]);
-
+    addHidden([nextButton, prevButton]);
     const offset = (page - 1) * maxPerPage;
     const data = await makeLimitFetch(offset, maxPerPage);
     const pokemons = data.results;
@@ -57,7 +57,6 @@ inputName.addEventListener("input", (event) => {
     if (name.length > 0) {
       await filterPokemonsByName(name);
     } else {
-      actualPage = 1;
       await createPokemons(actualPage, maxPerPage);
     }
   }, 300);

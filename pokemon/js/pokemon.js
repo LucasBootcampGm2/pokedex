@@ -27,22 +27,22 @@ async function addContentWithFetchData(id) {
     addPokemonTitle(id, pokemonData.name);
     addPokemonImg(pokemonData.sprites.other["official-artwork"].front_default);
     addPokemonStats(pokemonData.stats);
-    addPokemonHtmlDescription(pokemonData.name);
+    await addPokemonHtmlDescription(pokemonData.name);
 
     addPokemonAttributes(pokemonData, speciesData);
-    addHtmlTypesAndWeaknesses(pokemonData);
+    await addHtmlTypesAndWeaknesses(pokemonData);
     await addPokemonHtmlEvolutions(id);
   } catch (error) {
     console.error("Error:", error);
   }
 }
 
-window.addEventListener("load", () => {
+window.addEventListener("load", async () => {
   loading.style.display = "flex";
   main.style.display = "none";
   header.style.display = "none";
   const pokemonId = parseInt(localStorage.getItem("pokemon"));
-  addContentWithFetchData(pokemonId);
+  await addContentWithFetchData(pokemonId);
   nextPokemonButton(pokemonId);
   prevPokemonButton(pokemonId);
 

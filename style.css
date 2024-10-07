@@ -78,14 +78,3 @@ p {
   }
 }
 
-@media (min-width: 1024px) {
-  .pokeball {
-    top: 80%;
-  }
-}
-
-@media (min-width: 1440px) {
-  .pokeball {
-    top: 35%;
-  }
-}

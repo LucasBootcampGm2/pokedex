@@ -1,5 +1,6 @@
 body {
   background-color: #2b2d42;
+  padding: 0 40px;
 }
 
 p {
@@ -59,6 +60,10 @@ header {
   outline: none;
   font-size: 1rem;
   transition: all 0.3s ease;
+}
+
+#next-page,#prev-page {
+  width: 100px;
 }
 
 #select-type:hover,
