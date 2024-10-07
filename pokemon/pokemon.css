@@ -246,6 +246,7 @@ li.first {
   border-radius: 10px;
   padding: 10px;
   transition: background-color 0.3s;
+  gap: 10px;
 }
 
 .description-container li:hover {
@@ -340,7 +341,7 @@ li.first {
 
 @media (min-width: 768px) {
   body {
-    padding: 0 10%;
+    padding: 0 50px;
   }
 }
 
