@@ -14,3 +14,78 @@ p {
   margin: 0;
   font-weight: 400;
 }
+
+#logo-img {
+  width: 250px;
+  object-fit: cover;
+}
+
+#loading h2 {
+  color: white;
+  font-size: 1.5em;
+  margin: 10%;
+}
+
+#error {
+  color: white;
+}
+
+#error img {
+  width: 250px;
+}
+
+#loading {
+  position: absolute;
+  top: 30%;
+}
+
+.pokeball {
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 4s linear infinite;
+  -moz-animation: spin 4s linear infinite;
+  animation: spin 4s linear infinite;
+}
+
+.hidden {
+  display: none;
+}
+
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 768px) {
+  .pokemon-container {
+    max-width: 600px;
+  }
+
+  .header {
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 1024px) {
+  .pokeball {
+    top: 80%;
+  }
+}
+
+@media (min-width: 1440px) {
+  .pokeball {
+    top: 35%;
+  }
+}

@@ -15,6 +15,10 @@ import {
   addPokemonTitle,
   addPokemonImg,
 } from "../js/especificData.js";
+import { loading } from "../../home/js/variables.js";
+
+const main = document.getElementById("section-pokemon-details");
+const header = document.querySelector(".header");
 async function addContentWithFetchData(id) {
   try {
     const pokemonData = await fetchPokemonData(id);
@@ -34,8 +38,15 @@ async function addContentWithFetchData(id) {
 }
 
 window.addEventListener("load", () => {
+  loading.style.display = "flex";
+  main.style.display = "none";
+  header.style.display = "none";
   const pokemonId = parseInt(localStorage.getItem("pokemon"));
   addContentWithFetchData(pokemonId);
   nextPokemonButton(pokemonId);
   prevPokemonButton(pokemonId);
+
+  loading.style.display = "none";
+  main.style.display = "flex";
+  header.style.display = "block";
 });

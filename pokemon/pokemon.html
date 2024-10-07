@@ -4,18 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="pokemon.css">
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="pokemon.css">
   </head>
   <body>
     <header class="header">
+      <div class="container-logo"><img src="../images/logo.png" alt="logo" id="logo-img"></div>
       <div class="container-next-prev-pokemon">
         <a href="pokemon.html" id="previous">
           <div class="prev-spans-left">
             <span class="pokemon-number-before">Previous pokemon</span>
           </div>
         </a>
-
+        
         <a href="pokemon.html" id="next">
           <div class="prev-spans-right">
             <span class="pokemon-number-after">Next Pokemon</span>
@@ -23,14 +24,17 @@
         </a>
       </div>
       <div class="pokemon-title">
-          <h2 class="pokemon-title-h2"></h2>
-          <span class="pokemon-number"></span>
+        <h2 class="pokemon-title-h2"></h2>
+        <span class="pokemon-number"></span>
       </div>
     </header>
+    <div id="loading" class="hidden">
+      <img class="pokeball" src="../images/pokeball.png" alt="pokeball" />
+      <h2>Loading...</h2>
+    </div>
     <main id="section-pokemon-details">
       <div class="column-left">
         <img class="pokemon-img"></img>
-        
 
         <div class="pokemon-stats-info">
           <h3>Stats</h3>
@@ -65,14 +69,14 @@
           <div id="container-evolutions"></div>
         </section>
       </div>   
+      <div class="container-more">
+        <a href="../index.html" id="explore-more">
+          <button id="explore-more-button">Explore More Pokémon</button>
+        </a>
+        
+        
+      </div>
     </main>
-    <div class="container-more">
-      <a href="../index.html" id="explore-more">
-        <button id="explore-more-button">Explore More Pokémon</button>
-      </a>
-      
-      
-    </div>
     <script src="./js/pokemon.js" type="module"></script>
   </body>
 </html>

@@ -7,49 +7,6 @@ p {
   padding: 5px;
 }
 
-#loading h2 {
-  color: white;
-  font-size: 1.5em;
-  margin: 10%;
-}
-
-#error {
-  color: white;
-}
-
-#error img {
-  width: 250px;
-}
-
-#loading {
-  position: absolute;
-  top: 30%;
-}
-
-.pokeball {
-  width: 120px;
-  height: 120px;
-  -webkit-animation: spin 4s linear infinite;
-  -moz-animation: spin 4s linear infinite;
-  animation: spin 4s linear infinite;
-}
-@-moz-keyframes spin {
-  100% {
-    -moz-transform: rotate(360deg);
-  }
-}
-@-webkit-keyframes spin {
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-@keyframes spin {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
 span,
 a {
   color: white;
@@ -72,11 +29,6 @@ header {
   flex-wrap: wrap;
   gap: 40px;
   padding: 40px;
-}
-
-#logo-img {
-  width: 250px;
-  object-fit: cover;
 }
 
 .container-filters {
@@ -138,10 +90,6 @@ header {
   position: absolute;
   backface-visibility: hidden;
   flex-direction: column;
-}
-
-.hidden {
-  display: none;
 }
 
 .back-card {
@@ -305,26 +253,16 @@ footer {
   .header {
     justify-content: space-between;
   }
-
 }
 
 @media (min-width: 1024px) {
   .pokemon-container {
     max-width: 900px;
   }
-
-
-  .pokeball {
-    top: 80%;
-  }
 }
 
 @media (min-width: 1440px) {
   .pokemon-container {
     max-width: 1200px;
-  }
-
-  .pokeball {
-    top: 35%;
   }
 }
