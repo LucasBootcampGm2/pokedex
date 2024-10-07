@@ -1,4 +1,4 @@
-import { getTypeColor } from "../../generalModules/getColor"
+import { getTypeColor } from "../../generalModules/getColor.js"
 
 async function fetchPokemonWeaknesses(pokemonData) {
   try {
